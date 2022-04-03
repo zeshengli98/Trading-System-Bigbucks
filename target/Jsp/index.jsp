@@ -28,7 +28,7 @@
     }
 </style>
 <div class="container" style = "width:30%!important;">
-            <img src="Images/giphy.gif" alt="Stock-go-go" class="logo" style = "width:320px;height:280px;">
+            <img src="Images/giphy.gif" alt="bigbucks" class="logo" style = "width:320px;height:280px;">
             <h5>Login</h5>
             <br>
         <p><span id="_ctl0__ctl0_Content_Main_message" style="color:#FF0066;font-size:12pt;font-weight:bold;">
@@ -60,48 +60,4 @@
         </div>
 
 
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>用户登录</title>
-    <link rel="stylesheet"  href="study.css" />
-
-</head>
-
-<body>
-<div class="login">
-    <h2>Bigbucks Login</h2>
-    <div class="login_box">
-        <!-- required就是不能为空  必须在css效果中有很大的作用 -->
-
-        <input type="text" name='name' id='name' required  />
-        <label for="name" >Username</label>
-    </div>
-    <div class="login_box">
-
-        <input type="password" name='pwd' id='pwd' required="required">
-        <label for="pwd">Password</label>
-    </div>
-    <a href=" ">
-        Login
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </a >
-    <a href="javascript:void(0)">
-        Sign up
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </a >
-
-
-
-</div>
-
-</body>
-</html>
 <%@ include file="footer.jsp" %>

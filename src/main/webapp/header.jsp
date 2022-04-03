@@ -15,7 +15,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <style type="text/css">
   a:hover{
-    color:#5FA8D3!important;
+    color: #5fa8d3 !important;
   }
 
 </style>
