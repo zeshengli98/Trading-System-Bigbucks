@@ -56,6 +56,8 @@
                     </select>
                 </div>
                 <input type="submit" value="Login" class="btn btn-info"/>
+
+                <a style="padding-left: 65px" href="signup.jsp">Signup</a>
             </form>
         </div>
 

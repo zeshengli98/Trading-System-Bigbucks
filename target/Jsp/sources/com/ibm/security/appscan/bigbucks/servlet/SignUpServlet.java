@@ -41,10 +41,10 @@ public class SignUpServlet extends HttpServlet {
                 message = "Two passwords did not match";
             } else if (DBUtil.isExistedUser(username)) {
                 message = "Username has already been used, please use another username.";
+                request.getSession().setAttribute("message", message);
                 Log4Bigbucks.getInstance().logError("Login in failed >>> User: " + username + " >>> Password: " + password1);
                 throw new Exception();
             } else {
-//                message = DBUtil.addUser(username, password1, firstname, lastname);
                 message = DBUtil.createAccount(username, password1, firstname, lastname);
             }
             if (message == null)

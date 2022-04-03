@@ -20,6 +20,9 @@
 
 </style>
 <html>
+
+  <% boolean loggedIn = request.getSession().getAttribute("user") != null; %>
+
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
   <title>${heading}</title>
@@ -38,7 +41,8 @@
         <a class="nav-link" href="home.jsp">Home<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/index.jsp">Logout</a>
+<%--        click logout href link, href = dologin will execute the doget action in the LoginServlet method and finally logout--%>
+        <a class="nav-link" href="dologin">Logout</a>
       </li>
     </ul>
   </div>

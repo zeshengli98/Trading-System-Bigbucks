@@ -10,8 +10,19 @@
         <servlet-class>com.ibm.security.appscan.bigbucks.servlet.LoginServlet2</servlet-class>
     </servlet>
 
+    <servlet>
+        <display-name>com.ibm.security.appscan.bigbucks.servlet.SignUpServlet</display-name>
+        <servlet-name>SignUpServlet</servlet-name>
+        <servlet-class>com.ibm.security.appscan.bigbucks.servlet.SignUpServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/dologin</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SignUpServlet</servlet-name>
+        <url-pattern>/dosignup</url-pattern>
     </servlet-mapping>
 </web-app>

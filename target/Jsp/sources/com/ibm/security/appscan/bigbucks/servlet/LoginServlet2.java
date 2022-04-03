@@ -68,7 +68,7 @@ public class LoginServlet2 extends HttpServlet {
                 response.sendRedirect("customerRepresentativeHome.jsp");
             }
             else {
-                response.sendRedirect("welcome.jsp");//modify to home.jsp
+                response.sendRedirect("home.jsp");//modify to home.jsp
             }
         }
         catch (Exception ex){
