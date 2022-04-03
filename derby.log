@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sun Apr 03 13:43:22 UTC 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-017f-efaa-7bcf-0000076098a8 
+on database directory /Users/zesheng.li/bigbucks/bigbucks with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@5c29bfd 
+Loaded from file:/Users/zesheng.li/Library/Application%20Support/JetBrains/IntelliJIdea2021.3/jdbc-drivers/Apache%20Derby/10.15.2.0/derby-10.15.2.0.jar
+java.vendor=JetBrains s.r.o.
+java.runtime.version=11.0.13+7-b1751.25
+user.dir=/Users/zesheng.li/Duke Course Program/Fintech512 JAVA/bigb
+os.name=Mac OS X
+os.arch=aarch64
+os.version=12.0.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
