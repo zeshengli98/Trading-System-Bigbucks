@@ -17,6 +17,8 @@
 
 <div class="container">
     <h2>${heading}</h2>
+    <br>
+    <pre style="font-family: Arial; text-align: center">${summary}</pre>
     <div class="container">
         <c:if test="${empty holdings}">
         <h3> No stocks found! <h3/>

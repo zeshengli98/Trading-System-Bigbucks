@@ -1,6 +1,7 @@
 package com.ibm.security.appscan.bigbucks.servlet;
 
 import com.ibm.security.appscan.Log4Bigbucks;
+import com.ibm.security.appscan.bigbucks.model.Account;
 import com.ibm.security.appscan.bigbucks.model.Portfolio;
 import com.ibm.security.appscan.bigbucks.util.DBUtil;
 import com.ibm.security.appscan.bigbucks.util.ServletUtil;
@@ -32,8 +33,26 @@ public class ShowPortfolioServlet extends HttpServlet {
             ArrayList<Portfolio> holdings = DBUtil.getPortfoliosByAccount(accountId);
             request.setAttribute("holdings", holdings);
             System.out.println("size: " + holdings.size());
-            request.setAttribute("heading", "Current stock holdings");
+            double cash = -1;
+            try {
+                cash = Account.getAccount(accountId).getBalance();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            double marketPrice = 0;
+            double profit = 0;
+            for(Portfolio p:holdings){
+                marketPrice += p.getCurrentValue();
+                profit += p.getProfit();
+            }
+            String summary = "Cash: " + String.format("%.2f", cash) + "\t\t\t"
+                    + "Market Price: " + String.format("%.2f", marketPrice) + "\t\t\t"
+                    + "Asset: " + String.format("%.2f", marketPrice + cash) + "\t\t\t"
+                    + "Total Profit:" +  String.format("%.2f",profit);
 
+
+            request.setAttribute("heading", "Current stock holdings");
+            request.setAttribute("summary", summary);
             RequestDispatcher rd = request.getRequestDispatcher("portfolioView.jsp");
             rd.forward(request, response);
         }

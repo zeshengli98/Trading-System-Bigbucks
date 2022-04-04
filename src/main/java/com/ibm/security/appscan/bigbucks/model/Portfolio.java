@@ -64,7 +64,7 @@ public class Portfolio {
         return String.format("%.2f", getProfit());
     }
     public double getProfit(){
-        return amount - getCurrentValue();
+        return getCurrentValue() - amount;
     }
     public int getPortfolioId() {
         return portfolioId;
