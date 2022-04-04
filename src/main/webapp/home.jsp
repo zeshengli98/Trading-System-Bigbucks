@@ -47,7 +47,7 @@
     <div class="card-body">
       <h5 class="card-title">Orders</h5>
       <div class="container">
-        <form action="viewAddOrder">
+        <form action="doorder",method="get">
           <button type="submit" class="btn btn-outline-info"><i class="fas fa-bullseye mr-2"></i>Place Order</button>
           <%--                    <input type="submit" value="Place Order" class="btn btn-outline-info"/>--%>
         </form>

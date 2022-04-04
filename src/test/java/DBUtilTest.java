@@ -142,8 +142,8 @@ public class DBUtilTest extends TestCase {
     }
 
     @Test void TestWhatever() throws SQLException, IOException {
-        String error = updateAllData();
-        System.out.println(error);
+        String date = "2022-03-09";
+        System.out.println(getHistricalClosePrice("AAPL",date));
     }
 
     @Test void TestWhatever2() throws SQLException, IOException {

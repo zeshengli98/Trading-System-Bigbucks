@@ -351,6 +351,36 @@ public class DBUtil {
         }
         return stocks.toArray(new Stock[stocks.size()]);
     }
+    public static ArrayList<Portfolio> getPortfoliosByAccount(long accountID){
+        ArrayList<Portfolio> result = new ArrayList<Portfolio>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            String query = "SELECT * FROM PORTFOLIOS a join STOCKS b on a.SYMBOL=b.SYMBOL WHERE ACCOUNTID="+accountID;
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+
+                int pid = resultSet.getInt("portfolio_id");
+                int aid = resultSet.getInt("accountid");
+                String symbol = resultSet.getString("symbol");
+                int share = resultSet.getInt("share");
+                double avgFillPrice = resultSet.getDouble("avg_fill_price");
+                double amount = resultSet.getDouble("amount");
+                String shareName = resultSet.getString("STOCK_NAME");
+                //Feedback feedback = new Feedback(id, name, email, subject, message);
+                Portfolio portfolio = new Portfolio(pid, aid, symbol, share, avgFillPrice, amount, shareName);
+                result.add(portfolio);
+            }
+        } catch (SQLException e) {
+            Log4Bigbucks.getInstance().logError("Error retrieving portfolios: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     /**
      * Get all accounts for the specified user
      * @param username
@@ -465,6 +495,21 @@ public class DBUtil {
         return -1;
     }
 
+    public static double getHistricalClosePrice(String symbol, String date) throws SQLException {
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        symbol = symbol.toUpperCase();
+        ResultSet resultSet = statement.executeQuery("SELECT PRICE_CLOSE FROM HISTORICALDATA WHERE SYMBOL = '"+symbol+"'"+"AND DATE BETWEEN timestamp ('"+date+"',"+"'00.00.00') AND timestamp('"+date+"',"+"'00.00.01')");
+        if (resultSet.next()) {
+            return resultSet.getDouble("PRICE_CLOSE");
+        }
+        return -1;
+    }
+    public static String orderStocks(String username,long debitActId, String orderType, String symbol, int shares, double price) throws SQLException {
+        java.sql.Timestamp date = new Timestamp(new java.util.Date().getTime());
+        return orderStocks( username, debitActId,  orderType,  symbol,  shares,  price,  date);
+    }
+
     /**
      * Order stock and update portfolio and account table
      * @param username
@@ -475,7 +520,7 @@ public class DBUtil {
      * @param price
      * @return
      */
-    public static String orderStocks(String username,long debitActId, String orderType, String symbol, int shares, double price) throws SQLException {
+    public static String orderStocks(String username,long debitActId, String orderType, String symbol, int shares, double price, Timestamp date) throws SQLException {
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
@@ -484,9 +529,6 @@ public class DBUtil {
             if (debitAccount == null) {
                 return "Originating account is invalid";
             }
-
-            java.sql.Timestamp date = new Timestamp(new java.util.Date().getTime());
-
 
             /* this is the account that the payment will be made from, thus negative amount!*/
             long id = debitAccount.getAccountId();
