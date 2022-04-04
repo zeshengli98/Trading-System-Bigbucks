@@ -65,7 +65,7 @@
     <div class="card-body">
       <h5 class="card-title">Stocks</h5>
       <div class="container">
-        <form action="getStocksByCustomer">
+        <form action="getPortfoliosByCustomer">
           <button type="submit" class="btn btn-outline-info"><i class="far fa-file-alt mr-2"></i>Current stock holdings</button>
           <%--                    <input type="submit" value="Current stock holdings" class="btn btn-outline-info"/>--%>
         </form>
