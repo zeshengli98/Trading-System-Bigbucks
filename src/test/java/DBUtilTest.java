@@ -1,15 +1,18 @@
 
 import com.ibm.security.appscan.bigbucks.model.Account;
 import com.ibm.security.appscan.bigbucks.model.Stock;
+import com.ibm.security.appscan.bigbucks.util.DBUtil;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.Calendar;
 
 
+import static com.ibm.security.appscan.bigbucks.dto.StockDto.getHistoryStockDto;
 import static com.ibm.security.appscan.bigbucks.util.DBUtil.*;
 
 public class DBUtilTest extends TestCase {
@@ -143,12 +146,12 @@ public class DBUtilTest extends TestCase {
 
     @Test void TestWhatever() throws SQLException, IOException {
         String date = "2022-03-09";
-        System.out.println(getHistricalClosePrice("AAPL",date));
+        System.out.println(Arrays.asList(DBUtil.getStocksInDB()).get(0));
     }
 
     @Test void TestWhatever2() throws SQLException, IOException {
-        System.out.println(getMarketPrice("AAPL"));
-        System.out.println(getLastClosePrice("AAPL"));
+        System.out.println(getHistoryStockDto("AAPL").get(0));
+//        System.out.println(getLastClosePrice("AAPL"));
     }
 
 }

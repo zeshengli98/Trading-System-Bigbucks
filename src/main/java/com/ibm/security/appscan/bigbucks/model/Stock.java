@@ -5,11 +5,11 @@ import com.ibm.security.appscan.bigbucks.util.DBUtil;
 import java.sql.SQLException;
 
 public class Stock {
-    private String symbol;
-    private String fullname;
-    private String sector;
-    private String industry;
-    private String country;
+    public String symbol;
+    public String fullname;
+    public String sector;
+    public String industry;
+    public String country;
 
     public Stock(String symbol, String name, String sector, String industry, String country){
         this.symbol = symbol;

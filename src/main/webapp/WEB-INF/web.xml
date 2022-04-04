@@ -22,6 +22,14 @@
         <servlet-name>TransactionServlet</servlet-name>
         <servlet-class>com.ibm.security.appscan.bigbucks.servlet.TransactionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <description>
+        </description>
+        <display-name>viewStockHistoryServlet</display-name>
+        <servlet-name>viewStockHistoryServlet</servlet-name>
+        <servlet-class>com.ibm.security.appscan.bigbucks.servlet.viewStockHistoryServlet</servlet-class>
+    </servlet>
+
 
 
     <servlet-mapping>
@@ -37,5 +45,10 @@
     <servlet-mapping>
         <servlet-name>TransactionServlet</servlet-name>
         <url-pattern>/doorder</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>viewStockHistoryServlet</servlet-name>
+        <url-pattern>/viewStockHistory</url-pattern>
     </servlet-mapping>
 </web-app>

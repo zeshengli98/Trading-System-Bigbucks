@@ -69,7 +69,7 @@
           <button type="submit" class="btn btn-outline-info"><i class="far fa-file-alt mr-2"></i>Current stock holdings</button>
           <%--                    <input type="submit" value="Current stock holdings" class="btn btn-outline-info"/>--%>
         </form>
-        <form action="viewGetStockPriceHistory" class="pt-1">
+        <form action="viewStockHistory" class="pt-1">
           <button type="submit" class="btn btn-outline-info"><i class="fas fa-book-open mr-2"></i>Stock price history</button>
           <%--                    <input type="submit" value="Stock price history" class="btn btn-outline-info"/>--%>
         </form>

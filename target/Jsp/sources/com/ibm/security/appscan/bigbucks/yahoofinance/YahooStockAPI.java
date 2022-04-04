@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 public class YahooStockAPI {
-    public StockDto getStock(String stockName) throws IOException {
-        StockDto dto = null;
-        Stock stock = YahooFinance.get(stockName);
-        dto=new StockDto(stock.getName(), stock.getQuote().getPrice());
-        return dto;
-    }
+//    public StockDto getStock(String stockName) throws IOException {
+//        StockDto dto = null;
+//        Stock stock = YahooFinance.get(stockName);
+//        dto=new StockDto(stock.getName(), stock.getQuote().getPrice());
+//        return dto;
+//    }
 
     public Map<String,Stock> getStock(String[] stockNames) throws IOException {
         Map<String,Stock> stock = YahooFinance.get(stockNames);
@@ -70,7 +70,7 @@ public class YahooStockAPI {
 
     public static void main(String[] args) throws IOException {
         YahooStockAPI yahooStockAPI = new YahooStockAPI();
-        System.out.println(yahooStockAPI.getStock("SPY"));
+//        System.out.println(yahooStockAPI.getStock("SPY"));
 
         yahooStockAPI.getHistory("SPY",1,"daily");
 
