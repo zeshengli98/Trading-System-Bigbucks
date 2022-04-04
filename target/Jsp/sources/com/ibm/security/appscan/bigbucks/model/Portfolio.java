@@ -1,5 +1,9 @@
 package com.ibm.security.appscan.bigbucks.model;
 
+import com.ibm.security.appscan.bigbucks.util.DBUtil;
+
+import java.sql.SQLException;
+
 public class Portfolio {
     private int portfolioId;
     private long accountId;
@@ -25,7 +29,21 @@ public class Portfolio {
         this.shareName = shareName;
     }
 
-
+    public double getCurrentPrice(){
+        double price = 0;
+        try {
+            price = DBUtil.getLastClosePrice(symbol);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return price;
+    }
+    public double getCurrentValue(){
+       return share*getCurrentPrice();
+    }
+    public double getProfit(){
+        return amount - getCurrentValue();
+    }
     public int getPortfolioId() {
         return portfolioId;
     }

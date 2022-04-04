@@ -33,6 +33,7 @@ public class ShowPortfolioServlet extends HttpServlet {
             request.setAttribute("holdings", holdings);
             System.out.println("size: " + holdings.size());
             request.setAttribute("heading", "Current stock holdings");
+
             RequestDispatcher rd = request.getRequestDispatcher("portfolioView.jsp");
             rd.forward(request, response);
         }

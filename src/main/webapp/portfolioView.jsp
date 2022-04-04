@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="header.jsp" %>
+<%@ page import="com.ibm.security.appscan.bigbucks.util.DBUtil" %>
 
 <head>
     <title>View Your Portfolio</title>
@@ -29,18 +30,24 @@
                     <th>Number of stocks</th>
                     <th>Average Cost</th>
                     <th>Total Cost</th>
-<%--                    <th>Profit</th>--%>
+                    <th>Current Price</th>
+                    <th>Current Value</th>
+                    <th>Profit</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${holdings}" var="stock">
                     <tr>
+
                         <td>${stock.getSymbol()}</td>
                         <td>${stock.getShareName()}</td>
                         <td>${stock.getShare()}</td>
                         <td>${stock.getAmount()/stock.getShare()}</td>
                         <td>${stock.getAmount()}</td>
+                        <td>${stock.getCurrentPrice()}</td>
+                        <td>${stock.getCurrentValue()}</td>
+                        <td>${stock.getProfit()}</td>
 <%--                        <td>${stock.getAmount() - stock}</td>--%>
                         <td></td>
                         <td></td>
