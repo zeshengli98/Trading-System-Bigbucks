@@ -522,6 +522,7 @@ public class DBUtil {
      */
     public static String orderStocks(String username,long debitActId, String orderType, String symbol, int shares, double price, Timestamp date) throws SQLException {
         try {
+            symbol = symbol.toUpperCase();
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
 

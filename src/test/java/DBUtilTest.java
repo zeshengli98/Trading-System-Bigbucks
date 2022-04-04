@@ -1,5 +1,6 @@
 
 import com.ibm.security.appscan.bigbucks.model.Account;
+import com.ibm.security.appscan.bigbucks.model.Portfolio;
 import com.ibm.security.appscan.bigbucks.model.Stock;
 import com.ibm.security.appscan.bigbucks.util.DBUtil;
 import junit.framework.TestCase;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -152,6 +154,11 @@ public class DBUtilTest extends TestCase {
     @Test void TestWhatever2() throws SQLException, IOException {
         System.out.println(getHistoryStockDto("AAPL").get(0));
 //        System.out.println(getLastClosePrice("AAPL"));
+    }
+    @Test void TestWhatever3() throws SQLException, IOException {
+        long accountId = DBUtil.getAccounts("admin1")[0].getAccountId();
+        ArrayList<Portfolio> holdings = DBUtil.getPortfoliosByAccount(accountId);
+        System.out.println(holdings);
     }
 
 }
