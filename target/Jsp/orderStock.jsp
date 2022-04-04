@@ -34,8 +34,8 @@
         <div id="orderBuySellType-group" class="form-group">
             <label for="orderType">Buy/Sell</label>
             <select name="orderType" id="orderType" class="form-control">
-                <option>Buy</option>
-                <option>Sell</option>
+                <option>buy</option>
+                <option>sell</option>
             </select>
         </div>
 

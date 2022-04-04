@@ -43,11 +43,11 @@
                         <td>${stock.getSymbol()}</td>
                         <td>${stock.getShareName()}</td>
                         <td>${stock.getShare()}</td>
-                        <td>${stock.getAmount()/stock.getShare()}</td>
-                        <td>${stock.getAmount()}</td>
-                        <td>${stock.getCurrentPrice()}</td>
-                        <td>${stock.getCurrentValue()}</td>
-                        <td>${stock.getProfit()}</td>
+                        <td>${stock.getAvgPriceStr()}</td>
+                        <td>${stock.getTotalCostStr()}</td>
+                        <td>${stock.getCurrentPriceStr()}</td>
+                        <td>${stock.getCurrentValueStr()}</td>
+                        <td>${stock.getProfitStr()}</td>
 <%--                        <td>${stock.getAmount() - stock}</td>--%>
                         <td></td>
                         <td></td>

@@ -29,17 +29,39 @@ public class Portfolio {
         this.shareName = shareName;
     }
 
-    public double getCurrentPrice(){
+
+    public String getCurrentPriceStr(){
         double price = 0;
         try {
             price = DBUtil.getLastClosePrice(symbol);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return price;
+        return String.format("%.2f", price);
+    }
+    public double getCurrentPrice(){
+
+        return Double.parseDouble(getCurrentPriceStr());
+
+    }
+    public String getAvgPriceStr(){
+        double avg = amount/share;
+        return String.format("%.2f", avg);
+    }
+    public double getAvgPrice(){
+        return Double.parseDouble(getAvgPriceStr());
     }
     public double getCurrentValue(){
        return share*getCurrentPrice();
+    }
+    public String getTotalCostStr(){
+        return String.format("%.2f", amount);
+    }
+    public String getCurrentValueStr(){
+        return String.format("%.2f", getCurrentValue());
+    }
+    public String getProfitStr(){
+        return String.format("%.2f", getProfit());
     }
     public double getProfit(){
         return amount - getCurrentValue();
