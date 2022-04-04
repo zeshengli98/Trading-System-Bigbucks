@@ -94,6 +94,11 @@ public class TransactionServlet extends HttpServlet {
                 String orderError = "";
                 try {
                     if (marketType.equals("MarketOnClose")) {
+                        System.out.println("orderType: "+orderType);
+                        System.out.println("symbol: "+symbol);
+                        System.out.println("orderSize: "+orderSize);
+                        System.out.println("price: "+price);
+
                         orderError = DBUtil.orderStocks(username, debitActId, orderType, symbol, orderSize, price, Timestamp.valueOf(date+" 00:00:00"));
                         System.out.println("histryerror: "+msg);
                     }else {

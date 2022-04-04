@@ -152,8 +152,9 @@ public class DBUtilTest extends TestCase {
     }
 
     @Test void TestWhatever2() throws SQLException, IOException {
-        System.out.println(getHistoryStockDto("AAPL").get(0));
-//        System.out.println(getLastClosePrice("AAPL"));
+        long debitActId = DBUtil.getAccounts("admin1")[0].getAccountId();
+        String date = "2022-02-09";
+        orderStocks("", debitActId, "buy", "BLRX", 150, 1.8, Timestamp.valueOf(date+" 00:00:00"));
     }
     @Test void TestWhatever3() throws SQLException, IOException {
         long accountId = DBUtil.getAccounts("admin1")[0].getAccountId();

@@ -29,9 +29,17 @@
         <servlet-name>viewStockHistoryServlet</servlet-name>
         <servlet-class>com.ibm.security.appscan.bigbucks.servlet.viewStockHistoryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShowPortfolioServlet</servlet-name>
+        <servlet-class>com.ibm.security.appscan.bigbucks.servlet.ShowPortfolioServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShowPortfolioServlet</servlet-name>
+        <url-pattern>/getPortfoliosByCustomer</url-pattern>
+    </servlet-mapping>
 
 
-
+    
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/dologin</url-pattern>
