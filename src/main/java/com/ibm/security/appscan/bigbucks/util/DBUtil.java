@@ -357,7 +357,7 @@ public class DBUtil {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
-            String query = "SELECT * FROM PORTFOLIOS a join STOCKS b on a.SYMBOL=b.SYMBOL WHERE ACCOUNTID="+accountID;
+            String query = "SELECT * FROM PORTFOLIOS a join STOCKS b on a.SYMBOL=b.SYMBOL WHERE share > 0 AND ACCOUNTID="+accountID;
 
             ResultSet resultSet = statement.executeQuery(query);
 
