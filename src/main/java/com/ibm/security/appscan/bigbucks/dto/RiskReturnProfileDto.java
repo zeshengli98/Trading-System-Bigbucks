@@ -95,7 +95,7 @@ public class RiskReturnProfileDto {
         for(int i=0;i<profile.size();i++){
             retsum = retsum + profile.get(i).pctPnL;
         }
-        double avgret = retsum/profile.size();
+        double avgret = retsum/profile.size()*252;
         return avgret;
     }
 
@@ -105,7 +105,7 @@ public class RiskReturnProfileDto {
         for(int i=0;i<profile.size();i++){
             stdsum = stdsum + (profile.get(i).pctPnL-avgret)*(profile.get(i).pctPnL-avgret);
         }
-        double std = Math.sqrt(stdsum/profile.size());
+        double std = Math.sqrt(stdsum/profile.size()*252);
         return std;
     }
 
