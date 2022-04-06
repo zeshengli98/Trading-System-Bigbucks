@@ -36,11 +36,11 @@ public class RiskReturnProfileServlet extends HttpServlet {
             accountId = DBUtil.getAccounts(username)[0].getAccountId();
             List<RiskReturnProfileDto>profile =  getRiskRetHistory(accountId);
             ArrayList<RiskReturnProfileDto> profile2 = getRiskRetHistory(accountId);
-            double ret = calAvgRet(profile2);
-            double std = calStd(profile2);
+            double ret = calAvgRet(profile2)*252;
+            double std = calStd(profile2)*Math.sqrt(252);
             double sharpe = calSharpeRatio(profile2);
-            String summary = "Portfolio Average Return: " + String.format("%.2f", ret*100) + "%\t\t\t"
-                    + "Portfolio Volatility: " + String.format("%.2f", std*100) + "%\t\t\t"
+            String summary = "Portfolio Annualized Average Return: " + String.format("%.2f", ret*100) + "%\t\t\t"
+                    + "Portfolio Annualized Volatility: " + String.format("%.2f", std*100) + "%\t\t\t"
                     + "Sharpe Ratio: " + String.format("%.4f", sharpe);
             request.getSession(true).setAttribute("summary", summary);
             request.setAttribute("profile", profile);

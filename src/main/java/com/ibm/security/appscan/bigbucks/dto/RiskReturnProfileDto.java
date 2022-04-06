@@ -51,7 +51,7 @@ public class RiskReturnProfileDto {
         PreparedStatement ps2 = connection.prepareStatement(query2);
         ps2.setLong(1,accountId);
         ResultSet rs2 = ps2.executeQuery();
-        double cash = 1000000;
+
 //        double assetValue = 0;
         while(rs2.next()){
             String symbol = rs2.getString("SYMBOL");
@@ -59,19 +59,22 @@ public class RiskReturnProfileDto {
 
             int profilesIx = 0;
             int performIx = 0;
-
+            double cashcon = 0;
             double lastEquity = 1000000;
             while(profilesIx<profiles.size() && performIx<aPerformance.size()){
 
                 LocalDate aDate =  profiles.get(profilesIx).date;
                 LocalDate bDate = aPerformance.get(performIx).date;
                 if (aDate.isEqual(bDate) ){
-                    cash = cash + aPerformance.get(performIx).cashchg;
+                    if (aPerformance.get(performIx).cashchg!=0) {
+                        cashcon =cashcon+ aPerformance.get(performIx).cashchg;
+                    }
+                    double cash = profiles.get(profilesIx).cash + cashcon;
 //                    assetValue = assetValue + aPerformance.get(performIx).assetchg;
 
                     profiles.get(profilesIx).setCash(cash);
                     profiles.get(profilesIx).setAsset(profiles.get(profilesIx).asset + aPerformance.get(performIx).amount);
-                    profiles.get(profilesIx).setEquity(profiles.get(profilesIx).cash+profiles.get(profilesIx).asset);
+                    profiles.get(profilesIx).setEquity(profiles.get(profilesIx).cash + profiles.get(profilesIx).asset);
 
                     double equity = profiles.get(profilesIx).equity;
                     profiles.get(profilesIx).setPnL(equity - lastEquity);
@@ -86,7 +89,7 @@ public class RiskReturnProfileDto {
                 }
             }
         }
-        profiles.remove(0);
+//        profiles.remove(0);
         return profiles;
     }
 
@@ -95,7 +98,7 @@ public class RiskReturnProfileDto {
         for(int i=0;i<profile.size();i++){
             retsum = retsum + profile.get(i).pctPnL;
         }
-        double avgret = retsum/profile.size()*252;
+        double avgret = retsum/profile.size();
         return avgret;
     }
 
@@ -105,12 +108,12 @@ public class RiskReturnProfileDto {
         for(int i=0;i<profile.size();i++){
             stdsum = stdsum + (profile.get(i).pctPnL-avgret)*(profile.get(i).pctPnL-avgret);
         }
-        double std = Math.sqrt(stdsum/profile.size()*252);
+        double std = Math.sqrt(stdsum/profile.size());
         return std;
     }
 
     public static double calSharpeRatio(ArrayList<RiskReturnProfileDto> profile){
-        double rf = 0.02067;
+        double rf = 0.02067/252;
         double avgret = calAvgRet(profile);
         double std = calStd(profile);
         double sharpeRatio = (avgret-rf)/std;
@@ -123,6 +126,8 @@ public class RiskReturnProfileDto {
         for (int i=0;i<rr.size();i++){
             System.out.println(rr.get(i));
         }
+        System.out.println(calAvgRet(rr)*252);
+        System.out.println(calStd(rr)*Math.sqrt(252));
         System.out.println(calSharpeRatio(rr));
     }
 }
