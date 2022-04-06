@@ -25,6 +25,19 @@
     <servlet>
         <description>
         </description>
+        <display-name>ManagerViewAllStocksServlet</display-name>
+        <servlet-name>ManagerViewAllStocksServlet</servlet-name>
+        <servlet-class>com.ibm.security.appscan.bigbucks.servlet.ManagerViewAllStocksServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagerViewAllStocksServlet</servlet-name>
+        <url-pattern>/ManagerViewAllStocks</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <description>
+        </description>
         <display-name>viewStockHistoryServlet</display-name>
         <servlet-name>viewStockHistoryServlet</servlet-name>
         <servlet-class>com.ibm.security.appscan.bigbucks.servlet.viewStockHistoryServlet</servlet-class>

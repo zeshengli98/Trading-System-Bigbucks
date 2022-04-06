@@ -11,6 +11,7 @@ public class Portfolio {
     private int share;
     private double avgFillPrice;
     private double amount;
+    public String username;
 
     public String getShareName() {
         return shareName;
@@ -27,6 +28,17 @@ public class Portfolio {
         this.avgFillPrice = avgFillPrice;
         this.amount = amount;
         this.shareName = shareName;
+    }
+    public Portfolio(int portfolioId, long accountId, String symbol, int share,
+                     double avgFillPrice, double amount, String shareName, String username){
+        this.portfolioId = portfolioId;
+        this.accountId = accountId;
+        this.symbol = symbol;
+        this.share = share;
+        this.avgFillPrice = avgFillPrice;
+        this.amount = amount;
+        this.shareName = shareName;
+        this.username = username;
     }
 
 
@@ -76,6 +88,9 @@ public class Portfolio {
 
     public String getSymbol() {
         return symbol;
+    }
+    public String getUsername() {
+        return username;
     }
 
     public double getAmount() {

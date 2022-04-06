@@ -42,10 +42,10 @@
     <%--        <div class="col">--%>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Manage Employee</h5>
+            <h5 class="card-title">Manage Portfolio</h5>
             <div class="container">
-                <form action="viewAddEmployee.jsp">
-                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-paperclip mr-2"></i>Add Employee</button>
+                <form action="ManagerViewAllStocks">
+                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-paperclip mr-2"></i>View all holdings</button>
                     <%--                            <input type="submit" value="Add Employee" class="btn btn-outline-info"/>--%>
                 </form>
                 <form action="getEmployees" class="pt-1">

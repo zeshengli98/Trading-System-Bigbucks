@@ -381,6 +381,36 @@ public class DBUtil {
         return result;
     }
 
+    public static ArrayList<Portfolio> getAllUsersPortfolios(){
+        ArrayList<Portfolio> result = new ArrayList<Portfolio>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            String query = "SELECT * FROM PORTFOLIOS a join STOCKS b on a.SYMBOL=b.SYMBOL join ACCOUNTS c on a.ACCOUNTID=c.ACCOUNT_ID where a.SHARE>0";
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+
+                int pid = resultSet.getInt("portfolio_id");
+                int aid = resultSet.getInt("accountid");
+                String symbol = resultSet.getString("symbol");
+                int share = resultSet.getInt("share");
+                double avgFillPrice = resultSet.getDouble("avg_fill_price");
+                double amount = resultSet.getDouble("amount");
+                String shareName = resultSet.getString("STOCK_NAME");
+                String username = resultSet.getString("userid");
+                //Feedback feedback = new Feedback(id, name, email, subject, message);
+                Portfolio portfolio = new Portfolio(pid, aid, symbol, share, avgFillPrice, amount, shareName, username);
+                result.add(portfolio);
+            }
+        } catch (SQLException e) {
+            Log4Bigbucks.getInstance().logError("Error retrieving portfolios: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
+    }
     /**
      * Get all accounts for the specified user
      * @param username
