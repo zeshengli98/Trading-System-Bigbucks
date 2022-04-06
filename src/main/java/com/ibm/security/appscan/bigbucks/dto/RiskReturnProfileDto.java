@@ -86,7 +86,7 @@ public class RiskReturnProfileDto {
                 }
             }
         }
-
+        profiles.remove(0);
         return profiles;
     }
 
