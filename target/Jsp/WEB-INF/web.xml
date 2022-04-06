@@ -30,6 +30,28 @@
         <servlet-class>com.ibm.security.appscan.bigbucks.servlet.viewStockHistoryServlet</servlet-class>
     </servlet>
     <servlet>
+        <description>
+        </description>
+        <display-name>RiskReturnProfileServlet</display-name>
+        <servlet-name>RiskReturnProfileServlet</servlet-name>
+        <servlet-class>com.ibm.security.appscan.bigbucks.servlet.RiskReturnProfileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RiskReturnProfileServlet</servlet-name>
+        <url-pattern>/viewRiskReturn</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <description>
+        </description>
+        <display-name>GetOrderByCustomerServlet</display-name>
+        <servlet-name>GetOrderByCustomerServlet</servlet-name>
+        <servlet-class>com.ibm.security.appscan.bigbucks.servlet.GetOrderByCustomerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetOrderByCustomerServlet</servlet-name>
+        <url-pattern>/getOrdersByCustomer</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>ShowPortfolioServlet</servlet-name>
         <servlet-class>com.ibm.security.appscan.bigbucks.servlet.ShowPortfolioServlet</servlet-class>
     </servlet>

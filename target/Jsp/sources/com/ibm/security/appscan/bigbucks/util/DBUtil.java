@@ -42,7 +42,7 @@ import yahoofinance.histquotes.HistoricalQuote;
  *
  */
 public class DBUtil {
-
+    public static final double initMoney = 1000000;
     private static final String PROTOCOL = "jdbc:derby:";
     private static final String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String DBNAME = "bigbucks";
@@ -357,7 +357,7 @@ public class DBUtil {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
 
-            String query = "SELECT * FROM PORTFOLIOS a join STOCKS b on a.SYMBOL=b.SYMBOL WHERE ACCOUNTID="+accountID;
+            String query = "SELECT * FROM PORTFOLIOS a join STOCKS b on a.SYMBOL=b.SYMBOL WHERE share > 0 AND ACCOUNTID="+accountID;
 
             ResultSet resultSet = statement.executeQuery(query);
 
@@ -700,7 +700,7 @@ public class DBUtil {
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
-            statement.execute("INSERT INTO ACCOUNTS (USERID,ACCOUNT_NAME,BALANCE) VALUES ('" + username + "','" + acctType + "', 0)");
+            statement.execute("INSERT INTO ACCOUNTS (USERID,ACCOUNT_NAME,BALANCE) VALUES ('" + username + "','" + acctType + "', 1000000)");
             return null;
         } catch (SQLException e) {
             return e.toString();
@@ -921,16 +921,24 @@ public class DBUtil {
             System.out.println("");
         }
     }
+    public static void initAccount(long accountId) throws SQLException {
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        statement.execute("DELETE FROM PORTFOLIOS WHERE ACCOUNTID = "+ accountId);
+        statement.execute("DELETE FROM TRANSACTIONS WHERE ACCOUNTID ="+accountId);
+        statement.execute("UPDATE ACCOUNTS SET BALANCE = 1000000 WHERE ACCOUNT_ID =" + accountId);
+        System.out.println("Account "+accountId+" has been initialized.");
+    }
 
 
 
     public static void main(String[] args) throws SQLException, IOException {
-
-        DBUtil db = new DBUtil();
-//
-        Connection connection = db.getConnection();
-        instance.initDB();
-//        db.DBstoreData("SPY",5,"daily");
+        initAccount(800000);
+//        DBUtil db = new DBUtil();
+////
+//        Connection connection = db.getConnection();
+//        instance.initDB();
+////        db.DBstoreData("SPY",5,"daily");
 
     }
 

@@ -73,8 +73,8 @@
           <button type="submit" class="btn btn-outline-info"><i class="fas fa-book-open mr-2"></i>Stock price history</button>
           <%--                    <input type="submit" value="Stock price history" class="btn btn-outline-info"/>--%>
         </form>
-        <form action="viewSearchStocks" class="pt-1">
-          <button type="submit" class="btn btn-outline-info"><i class="fas fa-atom mr-2"></i>Search stocks</button>
+        <form action="viewRiskReturn" class="pt-1">
+          <button type="submit" class="btn btn-outline-info"><i class="fas fa-atom mr-2"></i>View risk-return profile</button>
           <%--                    <input type="submit" value="Search stocks" class="btn btn-outline-info"/>--%>
         </form>
         <form action="getCustomerBestsellers" class="pt-1">
