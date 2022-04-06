@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.ibm.security.appscan.bigbucks.dto.RiskReturnProfileDto.getRiskRetHistory;
+import static com.ibm.security.appscan.bigbucks.dto.RiskReturnProfileDto.*;
 import static com.ibm.security.appscan.bigbucks.util.DBUtil.getAccounts;
 import static com.ibm.security.appscan.bigbucks.util.DBUtil.getStocksInDB;
 
@@ -35,10 +35,21 @@ public class RiskReturnProfileServlet extends HttpServlet {
         try {
             accountId = DBUtil.getAccounts(username)[0].getAccountId();
             List<RiskReturnProfileDto>profile =  getRiskRetHistory(accountId);
+            ArrayList<RiskReturnProfileDto> profile2 = getRiskRetHistory(accountId);
+            double ret = calAvgRet(profile2);
+            double std = calStd(profile2);
+            double sharpe = calSharpeRatio(profile2);
+            String summary = "Portfolio Average Return: " + String.format("%.2f", ret*100) + "%\t\t\t"
+                    + "Portfolio Volatility: " + String.format("%.2f", std*100) + "%\t\t\t"
+                    + "Sharpe Ratio: " + String.format("%.4f", sharpe);
+            request.getSession(true).setAttribute("summary", summary);
             request.setAttribute("profile", profile);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        request.setAttribute("heading", "Risk-Return Profile");
         RequestDispatcher rd = request.getRequestDispatcher("viewRiskReturnProfile.jsp");
         rd.forward(request, response);
     }

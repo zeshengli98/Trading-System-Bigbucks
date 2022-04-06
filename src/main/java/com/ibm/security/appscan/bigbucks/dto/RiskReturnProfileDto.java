@@ -90,11 +90,39 @@ public class RiskReturnProfileDto {
         return profiles;
     }
 
+    public static double calAvgRet(ArrayList<RiskReturnProfileDto> profile){
+        double retsum = 0;
+        for(int i=0;i<profile.size();i++){
+            retsum = retsum + profile.get(i).pctPnL;
+        }
+        double avgret = retsum/profile.size();
+        return avgret;
+    }
+
+    public static double calStd(ArrayList<RiskReturnProfileDto> profile){
+        double stdsum = 0;
+        double avgret = calAvgRet(profile);
+        for(int i=0;i<profile.size();i++){
+            stdsum = stdsum + (profile.get(i).pctPnL-avgret)*(profile.get(i).pctPnL-avgret);
+        }
+        double std = Math.sqrt(stdsum/profile.size());
+        return std;
+    }
+
+    public static double calSharpeRatio(ArrayList<RiskReturnProfileDto> profile){
+        double rf = 0.02067;
+        double avgret = calAvgRet(profile);
+        double std = calStd(profile);
+        double sharpeRatio = (avgret-rf)/std;
+        return sharpeRatio;
+
+
+    }
     public static void main(String[] args) throws SQLException {
         ArrayList<RiskReturnProfileDto> rr =  getRiskRetHistory(800000);
         for (int i=0;i<rr.size();i++){
             System.out.println(rr.get(i));
         }
-
+        System.out.println(calSharpeRatio(rr));
     }
 }

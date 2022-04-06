@@ -147,8 +147,8 @@ public class DBUtilTest extends TestCase {
     }
 
     @Test void TestWhatever() throws SQLException, IOException {
-        String date = "2022-03-09";
-        System.out.println(Arrays.asList(DBUtil.getStocksInDB()).get(0));
+        java.util.Formatter formatter = new java.util.Formatter();
+        System.out.println(String.format("%.2f", 10.213*100)+"%");
     }
 
     @Test void TestWhatever2() throws SQLException, IOException {

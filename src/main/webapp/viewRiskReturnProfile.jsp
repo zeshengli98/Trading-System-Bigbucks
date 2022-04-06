@@ -18,7 +18,15 @@
 <div class="container">
     <h2>${heading}</h2>
     <br>
-    <pre style="font-family: Arial; text-align: center">${summary}</pre>
+<%--    <pre style="font-family: Arial; text-align: center">${summary}</pre>--%>
+    <p><span id="_ctl0__ctl0_Content_Main_message" style="color:#c90404;font-size:14pt;font-weight:bold;text-align: center">
+            <%
+                java.lang.String profileSummary = (String) request.getSession(true).getAttribute("summary");
+                System.out.println(profileSummary);
+                out.print(profileSummary);
+
+
+            %>
     <div class="container">
         <c:if test="${empty profile}">
         <h3> No stocks found! <h3/>
@@ -31,7 +39,6 @@
                     <th>Cash</th>
                     <th>Asset Value</th>
                     <th>Equity</th>
-                    <th>Profit</th>
                     <th>Profit(%)</th>
                     <th></th>
                 </tr>
@@ -41,10 +48,10 @@
                     <tr>
 
                         <td>${profile.date}</td>
-                        <td>${profile.cash}</td>
-                        <td>${profile.asset}</td>
-                        <td>${profile.equity}</td>
-<%--                        <td>${profile.PnL}</td>--%>
+                        <td>${String.format("%.2f", profile.cash)}</td>
+                        <td>${String.format("%.2f", profile.asset)}</td>
+                        <td>${String.format("%.2f", profile.equity)}</td>
+                        <td>${String.format("%.2f", profile.pctPnL*100)}%</td>
 <%--                        <td>${profile.pctPnL}</td>--%>
 <%--                        <td>${stock.getCurrentValueStr()}</td>--%>
 <%--                        <td>${stock.getProfitStr()}</td>--%>
