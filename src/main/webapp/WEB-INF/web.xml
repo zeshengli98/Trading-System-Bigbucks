@@ -47,6 +47,22 @@
         <servlet-name>GetOrderByCustomerServlet</servlet-name>
         <servlet-class>com.ibm.security.appscan.bigbucks.servlet.GetOrderByCustomerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PlotServlet</servlet-name>
+        <servlet-class>com.ibm.security.appscan.bigbucks.servlet.PlotServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetPlotServlet</servlet-name>
+        <servlet-class>com.ibm.security.appscan.bigbucks.servlet.GetPlotServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetPlotServlet</servlet-name>
+        <url-pattern>/getPlotServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PlotServlet</servlet-name>
+        <url-pattern>/getStockAnalytics</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetOrderByCustomerServlet</servlet-name>
         <url-pattern>/getOrdersByCustomer</url-pattern>

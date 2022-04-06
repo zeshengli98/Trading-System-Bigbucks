@@ -77,8 +77,8 @@
           <button type="submit" class="btn btn-outline-info"><i class="fas fa-atom mr-2"></i>View risk-return profile</button>
           <%--                    <input type="submit" value="Search stocks" class="btn btn-outline-info"/>--%>
         </form>
-        <form action="getCustomerBestsellers" class="pt-1">
-          <button type="submit" class="btn btn-outline-info"><i class="fas fa-chart-area mr-2"></i>View bestseller stocks</button>
+        <form action="getStockAnalytics" class="pt-1">
+          <button type="submit" class="btn btn-outline-info"><i class="fas fa-chart-area mr-2"></i>Stocks Analytics</button>
           <%--                    <input type="submit" value="View bestseller stocks" class="btn btn-outline-info"/>--%>
         </form>
         <form action="getStockSuggestions" class="pt-1">
