@@ -29,12 +29,12 @@
                 <tr>
                     <th>Symbol</th>
                     <th>Name</th>
-                    <th>Number of stocks</th>
-                    <th>Average Cost</th>
+                    <th># Shares</th>
+                    <th>Holding Price</th>
                     <th>Total Cost</th>
-                    <th>Current Price</th>
-                    <th>Current Value</th>
-                    <th>Profit</th>
+                    <th>Market Price</th>
+                    <th>Asset Value</th>
+                    <th>Unrealized Profit</th>
                     <th></th>
                 </tr>
                 </thead>

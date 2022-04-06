@@ -113,9 +113,9 @@ public class RiskReturnProfileDto {
     }
 
     public static double calSharpeRatio(ArrayList<RiskReturnProfileDto> profile){
-        double rf = 0.02067/252;
-        double avgret = calAvgRet(profile);
-        double std = calStd(profile);
+        double rf = 0.02067;
+        double avgret = calAvgRet(profile)*252;
+        double std = calStd(profile)*Math.sqrt(252);
         double sharpeRatio = (avgret-rf)/std;
         return sharpeRatio;
 
