@@ -24,6 +24,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.Date;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -352,6 +353,41 @@ public class DBUtil {
         }
         return stocks.toArray(new Stock[stocks.size()]);
     }
+
+    public static ArrayList<HistoricalData> getHistoricalDataByRange(String symbol, Date start, Date end) throws SQLException {
+        ArrayList<HistoricalData> result = new ArrayList<HistoricalData>();
+        try{
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String startDate = format.format(start);
+            String endDate = format.format(end);
+            System.out.println(startDate);
+            String query = "select * from HISTORICALDATA where SYMBOL=" + "'"
+                    +  symbol + "' AND " + "DATE between timestamp('"
+                    + startDate + "','00:00:00') and timestamp('" +
+                    endDate + "', '00:00:00') order by date";
+            System.out.println(query);
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()){
+                HistoricalData data = new HistoricalData();
+                Timestamp ts = rs.getTimestamp("date");
+                data.setDate(ts);
+                data.setClosePrice(rs.getDouble("price_close"));
+                data.setHighPrice(rs.getDouble("price_high"));
+                data.setId(rs.getInt("DATA_ID"));
+                data.setLowPrice(rs.getDouble("PRICE_LOW"));
+                data.setSymbol(rs.getString("symbol"));
+                data.setOpenPrice(rs.getDouble("PRICE_OPEN"));
+                result.add(data);
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public static ArrayList<Portfolio> getPortfoliosByAccount(long accountID){
         ArrayList<Portfolio> result = new ArrayList<Portfolio>();
         try {
@@ -359,7 +395,7 @@ public class DBUtil {
             Statement statement = connection.createStatement();
 
             String query = "SELECT * FROM PORTFOLIOS a join STOCKS b on a.SYMBOL=b.SYMBOL WHERE share > 0 AND ACCOUNTID="+accountID;
-
+            System.out.println(query);
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
@@ -965,9 +1001,6 @@ public class DBUtil {
 
         return null;
     }
-
-
-
 
     public static void fetchAllData() throws SQLException, IOException {
         Stock[] stocks = getStocks();

@@ -95,6 +95,14 @@
         <servlet-name>GetPlotServlet</servlet-name>
         <servlet-class>com.ibm.security.appscan.bigbucks.servlet.GetPlotServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DisplayChart</servlet-name>
+        <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DisplayChart</servlet-name>
+        <url-pattern>/servlet/DisplayChart</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetPlotServlet</servlet-name>
         <url-pattern>/getPlotServlet</url-pattern>
