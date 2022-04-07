@@ -52,6 +52,10 @@
                     <button type="submit" class="btn btn-outline-info"><i class="far fa-edit mr-2"></i>View current market orders</button>
                     <%--                            <input type="submit" value="View / Edit / Delete Employee" class="btn btn-outline-info"/>--%>
                 </form>
+                <form action="ManagerViewOverallRR" class="pt-1">
+                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-columns mr-2"></i>View overall risk-return profile</button>
+                    <%--                            <input type="submit" value="View sales report" class="btn btn-outline-info"/>--%>
+                </form>
 
             </div>
         </div>
@@ -62,10 +66,7 @@
         <div class="card-body">
             <h5 class="card-title">Sales and orders</h5>
             <div class="container">
-                <form action="viewSalesReport.jsp">
-                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-columns mr-2"></i>View sales report</button>
-                    <%--                            <input type="submit" value="View sales report" class="btn btn-outline-info"/>--%>
-                </form>
+
                 <form action="viewSummaryListing.jsp" class="pt-1">
                     <button type="submit" class="btn btn-outline-info"><i class="far fa-chart-bar mr-2"></i>View Revenue Summary</button>
                     <%--                            <input type="submit" value="View Revenue Summary" class="btn btn-outline-info"/>--%>

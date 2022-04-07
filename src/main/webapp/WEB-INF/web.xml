@@ -51,6 +51,20 @@
     <servlet>
         <description>
         </description>
+        <display-name>ManagerViewOverallRRServlet</display-name>
+        <servlet-name>ManagerViewOverallRRServlet</servlet-name>
+        <servlet-class>com.ibm.security.appscan.bigbucks.servlet.ManagerViewOverallRRServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagerViewOverallRRServlet</servlet-name>
+        <url-pattern>/ManagerViewOverallRR</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <description>
+        </description>
         <display-name>viewStockHistoryServlet</display-name>
         <servlet-name>viewStockHistoryServlet</servlet-name>
         <servlet-class>com.ibm.security.appscan.bigbucks.servlet.viewStockHistoryServlet</servlet-class>
