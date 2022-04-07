@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ibm.security.appscan.bigbucks.dto.PortfolioDto.getOrderFromAllTransaction;
 import static com.ibm.security.appscan.bigbucks.dto.PortfolioDto.getOrderFromTransaction;
 
 @Getter
@@ -93,6 +94,80 @@ public class RiskReturnProfileDto {
         return profiles;
     }
 
+    public static ArrayList<RiskReturnProfileDto> getAllUsersRiskRetHistory() throws SQLException {
+        Connection connection = DBUtil.getConnection();
+        String query0 = "SELECT DISTINCT ACCOUNT_ID FROM ACCOUNTS";
+        PreparedStatement ps0 = connection.prepareStatement(query0);
+        ResultSet rs0 = ps0.executeQuery();
+        double initMoney = 0;
+        while(rs0.next()){
+            initMoney=initMoney+1000000;
+        }
+
+
+        String query = "SELECT DISTINCT DATE FROM historicaldata WHERE DATE >= (select min(DATE) from TRANSACTIONS )  ORDER BY DATE";
+        PreparedStatement ps = connection.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<RiskReturnProfileDto> profiles = new ArrayList<>();
+        while(rs.next()){
+            LocalDate date = rs.getTimestamp("date").toLocalDateTime().toLocalDate();
+            profiles.add(new RiskReturnProfileDto(date, initMoney,0,initMoney,0,0));
+
+        }
+        ps.close();
+        String query2 = "SELECT DISTINCT SYMBOL FROM transactions";
+        PreparedStatement ps2 = connection.prepareStatement(query2);
+        ResultSet rs2 = ps2.executeQuery();
+
+//        double assetValue = 0;
+        while(rs2.next()){
+            String symbol = rs2.getString("SYMBOL");
+            List<PortfolioDto> aPerformance =getOrderFromAllTransaction(symbol);
+
+            int profilesIx = 0;
+            int performIx = 0;
+            double cashcon = 0;
+            double lastEquity = 1000000;
+            while(profilesIx<profiles.size() && performIx<aPerformance.size()){
+
+                LocalDate aDate =  profiles.get(profilesIx).date;
+                LocalDate bDate = aPerformance.get(performIx).date;
+                if (aDate.isEqual(bDate) ){
+                    if (aPerformance.get(performIx).cashchg!=0) {
+                        cashcon =cashcon+ aPerformance.get(performIx).cashchg;
+                    }
+                    double cash = profiles.get(profilesIx).cash + cashcon;
+//                    assetValue = assetValue + aPerformance.get(performIx).assetchg;
+
+                    profiles.get(profilesIx).setCash(cash);
+                    profiles.get(profilesIx).setAsset(profiles.get(profilesIx).asset + aPerformance.get(performIx).amount);
+                    profiles.get(profilesIx).setEquity(profiles.get(profilesIx).cash + profiles.get(profilesIx).asset);
+
+                    double equity = profiles.get(profilesIx).equity;
+                    profiles.get(profilesIx).setPnL(equity - lastEquity);
+                    profiles.get(profilesIx).setPctPnL(profiles.get(profilesIx).PnL / lastEquity);
+                    lastEquity = equity;
+
+                    profilesIx++;
+                    performIx++;
+
+                }else{
+                    profilesIx++;
+                }
+            }
+        }
+        double lasteq = initMoney;
+        for(int i=0;i<profiles.size();i++){
+            double eq = profiles.get(i).equity;
+            profiles.get(i).setPnL(eq-lasteq);
+            profiles.get(i).setPctPnL((eq-lasteq)/lasteq);
+            lasteq = eq;
+        }
+//        profiles.remove(0);
+        return profiles;
+    }
+
+
     public static double calAvgRet(ArrayList<RiskReturnProfileDto> profile){
         double retsum = 0;
         for(int i=0;i<profile.size();i++){
@@ -122,7 +197,7 @@ public class RiskReturnProfileDto {
 
     }
     public static void main(String[] args) throws SQLException {
-        ArrayList<RiskReturnProfileDto> rr =  getRiskRetHistory(800000);
+        ArrayList<RiskReturnProfileDto> rr =  getAllUsersRiskRetHistory();
         for (int i=0;i<rr.size();i++){
             System.out.println(rr.get(i));
         }
