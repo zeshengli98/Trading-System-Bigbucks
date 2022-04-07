@@ -153,7 +153,7 @@ public class DBUtilTest extends TestCase {
     }
 
     @Test void TestWhatever2() throws SQLException, IOException {
-        System.out.println(getAllUsersPortfolios().get(0).username);
+        System.out.println(getOrdersByAccount(800000));
     }
     @Test void TestWhatever3() throws SQLException, IOException {
         long accountId = DBUtil.getAccounts("admin1")[0].getAccountId();

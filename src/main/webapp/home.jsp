@@ -21,22 +21,6 @@
 <div class="container">
   <h2>Customer Options:</h2>
     <%
-//        String email = (String)session.getAttribute("email");
-//        String role = (String)session.getAttribute("role");
-//
-//        //redirect to appropriate home page if already logged in
-//        if(email != null) {
-//            if(role.equals("manager")) {
-//                response.sendRedirect("managerHome.jsp");
-//            }
-//            else if(role.equals("customerRepresentative")) {
-//                response.sendRedirect("customerRepresentativeHome.jsp");
-//            }
-//        }
-//        else {
-//            // redirect to log in if not alreaddy logged in
-//            response.sendRedirect("index.jsp");
-//        }
           if(!ServletUtil.isLoggedin(request)){
               response.sendRedirect("index.jsp");
 }

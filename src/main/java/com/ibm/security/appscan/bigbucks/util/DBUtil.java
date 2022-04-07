@@ -408,6 +408,30 @@ public class DBUtil {
         return currPort;
     }
 
+
+    public static List<Portfolio> getOrdersByAccount(long accountId) throws SQLException {
+        Connection connection = getConnection();
+
+        String query = "SELECT * FROM TRANSACTIONS a join STOCKS b on a.SYMBOL = b.SYMBOL join ACCOUNTS c on a.ACCOUNTID=c.ACCOUNT_ID WHERE ACCOUNTID = ? ORDER BY DATE DESC ";
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setLong(1,accountId);
+        ResultSet rs = ps.executeQuery();
+        List<Portfolio> orders = new ArrayList<>();
+        while(rs.next()){
+            int pid = rs.getInt("TRANSACTION_ID");
+            String symbol = rs.getString("symbol");
+            int share = rs.getInt("share");
+            double price = rs.getDouble("price");
+            double amount = rs.getDouble("amount");
+            String shareName = rs.getString("STOCK_NAME");
+            String username = rs.getString("userid");
+            LocalDate date = rs.getTimestamp("date").toLocalDateTime().toLocalDate();
+            orders.add(new Portfolio(pid, accountId, symbol, share,  price, amount, shareName, date));
+
+        }
+        return orders;
+    }
+
     public static ArrayList<Portfolio> getAllUsersPortfolios(){
         ArrayList<Portfolio> result = new ArrayList<Portfolio>();
         try {

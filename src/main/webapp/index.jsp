@@ -52,7 +52,6 @@
                     <select class="form-control" name="role" style="width:350px;">
                         <option value="customer">Customer</option>
                         <option value="manager">Manager</option>
-                        <option value="customerRepresentative">Customer Representative</option>
                     </select>
                 </div>
                 <input type="submit" value="Login" class="btn btn-info"/>

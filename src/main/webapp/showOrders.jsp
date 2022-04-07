@@ -19,20 +19,23 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Date</th>
-                    <th>Type</th>
-                    <th>Number of stocks</th>
-                    <th>Details</th>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Order Type</th>
+                    <th># Shares</th>
+                    <th>filled Price</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${orders}" var="cd">
                     <tr>
-                        <td>${cd.id}</td>
-                        <td>${cd.datetime}</td>
-                        <td>${cd.getClass().getSimpleName()}</td>
-                        <td>${cd.numShares}</td>
+                        <td>${cd.getDate()}</td>
+                        <td>${cd.getSymbol()}</td>
+                        <td>${cd.getShareName()}</td>
+                        <td>${cd.getOrderType(cd.getShare())}</td>
+                        <td>${cd.getShare()}</td>
+                        <td>${cd.getAvgPriceStr()}</td>
                         <td>
                             <c:choose>
                                 <c:when test="${cd.getClass().getSimpleName() == 'MarketOrder'}">

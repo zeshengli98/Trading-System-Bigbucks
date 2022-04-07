@@ -3,6 +3,7 @@ package com.ibm.security.appscan.bigbucks.model;
 import com.ibm.security.appscan.bigbucks.util.DBUtil;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class Portfolio {
     private int portfolioId;
@@ -18,6 +19,7 @@ public class Portfolio {
     }
 
     private String shareName;
+    private LocalDate date;
 
     public Portfolio(int portfolioId, long accountId, String symbol, int share,
                      double avgFillPrice, double amount, String shareName){
@@ -39,6 +41,17 @@ public class Portfolio {
         this.amount = amount;
         this.shareName = shareName;
         this.username = username;
+    }
+    public Portfolio(int portfolioId, long accountId, String symbol, int share,
+                     double avgFillPrice, double amount, String shareName, LocalDate date){
+        this.portfolioId = portfolioId;
+        this.accountId = accountId;
+        this.symbol = symbol;
+        this.share = share;
+        this.avgFillPrice = avgFillPrice;
+        this.amount = amount;
+        this.shareName = shareName;
+        this.date = date;
     }
 
 
@@ -104,6 +117,8 @@ public class Portfolio {
     public int getShare() {
         return share;
     }
+
+    public LocalDate getDate(){return date;}
 
     public String getOrderType(int sharechg){
         if(sharechg>=0){

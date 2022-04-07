@@ -62,60 +62,7 @@
     </div>
     <%--        </div>--%>
     <%--        <div class="col">--%>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Sales and orders</h5>
-            <div class="container">
 
-                <form action="viewSummaryListing.jsp" class="pt-1">
-                    <button type="submit" class="btn btn-outline-info"><i class="far fa-chart-bar mr-2"></i>View Revenue Summary</button>
-                    <%--                            <input type="submit" value="View Revenue Summary" class="btn btn-outline-info"/>--%>
-                </form>
-                <form action="getHighestRevenueEmployee" class="pt-1">
-                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-award mr-2"></i>Highest Revenue Customer Representative</button>
-                    <%--                            <input type="submit" value="Highest Revenue Customer Representative" class="btn btn-outline-info"/>--%>
-                </form>
-                <form action="getHighestRevenueCustomer" class="pt-1">
-                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-certificate mr-2"></i>Highest Revenue Customer</button>
-                    <%--                            <input type="submit" value="Highest Revenue Customer" class="btn btn-outline-info"/>--%>
-                </form>
-                <form action="viewSearchOrders" class="pt-1">
-                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-atom mr-2"></i>Search orders</button>
-                    <%--                            <input type="submit" value="Search orders" class="btn btn-outline-info"/>--%>
-                </form>
-            </div>
-        </div>
-    </div>
-    <%--        </div>--%>
-    <%--        <div class="col">--%>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Stocks</h5>
-            <div class="container">
-                <form action="viewSetStockPrice">
-                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-calculator mr-2"></i>Set stock price</button>
-                    <%--                            <input type="submit" value="Set stock price" class="btn btn-outline-info"/>--%>
-                </form>
-                <form action="getStocks" class="pt-1">
-                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-laptop-code mr-2"></i>View all Stocks</button>
-                    <%--                            <input type="submit" value="View all Stocks" class="btn btn-outline-info"/>--%>
-                </form>
-
-                <form action="getBestsellers" class="pt-1">
-                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-chart-area mr-2"></i>View Bestsellers</button>
-                    <%--                            <input type="submit" value="View Bestsellers" class="btn btn-outline-info"/>--%>
-                </form>
-
-                <form action="getActivelyTradedStocks" class="pt-1">
-                    <button type="submit" class="btn btn-outline-info"><i class="fas fa-chart-line mr-2"></i>View actively traded stocks</button>
-                    <%--                            <input type="submit" value="View actively traded stocks" class="btn btn-outline-info"/>--%>
-                </form>
-            </div>
-        </div>
-        <%--            </div>--%>
-        <%--        </div>--%>
-
-    </div>
 
 
 </div>
