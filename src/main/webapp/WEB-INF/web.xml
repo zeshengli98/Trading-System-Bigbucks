@@ -38,6 +38,19 @@
     <servlet>
         <description>
         </description>
+        <display-name>ManagerViewCurrentOrderServlet</display-name>
+        <servlet-name>ManagerViewCurrentOrderServlet</servlet-name>
+        <servlet-class>com.ibm.security.appscan.bigbucks.servlet.ManagerViewCurrentOrderServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagerViewCurrentOrderServlet</servlet-name>
+        <url-pattern>/ManagerViewCurrentOrder</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <description>
+        </description>
         <display-name>viewStockHistoryServlet</display-name>
         <servlet-name>viewStockHistoryServlet</servlet-name>
         <servlet-class>com.ibm.security.appscan.bigbucks.servlet.viewStockHistoryServlet</servlet-class>

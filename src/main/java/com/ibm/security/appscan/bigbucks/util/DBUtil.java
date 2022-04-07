@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 import javax.naming.Context;
@@ -379,6 +380,32 @@ public class DBUtil {
             e.printStackTrace();
         }
         return result;
+    }
+
+
+    public static List<Portfolio> getCurrentOrder() throws SQLException {
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+
+        ResultSet rs = statement.executeQuery("SELECT * FROM TRANSACTIONS a join STOCKS b on a.SYMBOL = b.SYMBOL join ACCOUNTS c on a.ACCOUNTID=c.ACCOUNT_ID");
+        LocalDate curr = LocalDate.now();
+        List<Portfolio> currPort = new ArrayList<>();
+        while(rs.next()){
+            int pid = rs.getInt("TRANSACTION_ID");
+            long accountId = rs.getLong("accountID");
+            String symbol = rs.getString("symbol");
+            int share = rs.getInt("share");
+            double price = rs.getDouble("price");
+            double amount = rs.getDouble("amount");
+            String shareName = rs.getString("STOCK_NAME");
+            String username = rs.getString("userid");
+            LocalDate date = rs.getTimestamp("date").toLocalDateTime().toLocalDate();
+            if (date.isEqual(curr)){
+                currPort.add(new Portfolio(pid, accountId, symbol, share,  price, amount, shareName, username));
+            }
+
+        }
+        return currPort;
     }
 
     public static ArrayList<Portfolio> getAllUsersPortfolios(){
@@ -861,9 +888,6 @@ public class DBUtil {
         }
         return date;
     }
-
-
-
 
 
     public static String updateAllData() throws SQLException, IOException{

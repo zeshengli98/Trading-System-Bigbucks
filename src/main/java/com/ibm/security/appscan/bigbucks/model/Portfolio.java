@@ -105,4 +105,12 @@ public class Portfolio {
         return share;
     }
 
+    public String getOrderType(int sharechg){
+        if(sharechg>=0){
+            return "buy";
+        }else {
+            return "sell";
+        }
+    }
+
 }

@@ -48,8 +48,8 @@
                     <button type="submit" class="btn btn-outline-info"><i class="fas fa-paperclip mr-2"></i>View all holdings</button>
                     <%--                            <input type="submit" value="Add Employee" class="btn btn-outline-info"/>--%>
                 </form>
-                <form action="getEmployees" class="pt-1">
-                    <button type="submit" class="btn btn-outline-info"><i class="far fa-edit mr-2"></i>View / Edit / Delete Employee</button>
+                <form action="ManagerViewCurrentOrder" class="pt-1">
+                    <button type="submit" class="btn btn-outline-info"><i class="far fa-edit mr-2"></i>View current market orders</button>
                     <%--                            <input type="submit" value="View / Edit / Delete Employee" class="btn btn-outline-info"/>--%>
                 </form>
 

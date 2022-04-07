@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -148,7 +149,7 @@ public class DBUtilTest extends TestCase {
 
     @Test void TestWhatever() throws SQLException, IOException {
         java.util.Formatter formatter = new java.util.Formatter();
-        System.out.println(String.format("%.2f", 10.213*100)+"%");
+        System.out.println( getCurrentOrder());
     }
 
     @Test void TestWhatever2() throws SQLException, IOException {
