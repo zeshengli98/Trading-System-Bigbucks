@@ -13,7 +13,7 @@
 
 <style type="text/css">
     body {
-        background-color:#F0F8FF;
+        background-color: #ffffff;
     }
     .logo {
         display: block;
@@ -28,7 +28,7 @@
     }
 </style>
 <div class="container" style = "width:30%!important;">
-            <img src="Images/giphy.gif" alt="bigbucks" class="logo" style = "width:320px;height:280px;">
+            <img src="Images/bigbucks.png" alt="bigbucks" class="logo" style = "width:588px;height:416px;">
             <h5>Login</h5>
             <br>
         <p><span id="_ctl0__ctl0_Content_Main_message" style="color:#FF0066;font-size:12pt;font-weight:bold;">
