@@ -8,8 +8,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.servlet.ServletUtilities;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -21,13 +20,9 @@ import org.jfree.util.ShapeUtilities;
 
 import java.awt.*;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class PlotUtil {
 
@@ -37,7 +32,7 @@ public class PlotUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         c.setTime(current);
-        c.add(Calendar.YEAR, -1*year);
+        c.add(Calendar.YEAR, -1 * year);
         Date start = c.getTime();
         ArrayList<HistoricalData> hs = null;
         try {
@@ -45,7 +40,7 @@ public class PlotUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        for(HistoricalData data: hs){
+        for (HistoricalData data : hs) {
             double price = data.getClosePrice();
             Day day = new Day(new Date(data.getDate().getTime()));
             ts.add(day, price);
@@ -54,12 +49,13 @@ public class PlotUtil {
         dataset.addSeries(ts);
         return dataset;
     }
+
     public static XYDataset getReturnDataset(String symbol, int year) {
         TimeSeries ts = new TimeSeries(symbol);
         Date current = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(current);
-        c.add(Calendar.YEAR, -1*year);
+        c.add(Calendar.YEAR, -1 * year);
         Date start = c.getTime();
         ArrayList<HistoricalData> hs = null;
 
@@ -70,9 +66,9 @@ public class PlotUtil {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        for(int i = 1; i< Objects.requireNonNull(historicalData).size(); i++){
+        for (int i = 1; i < Objects.requireNonNull(historicalData).size(); i++) {
             HistoricalData data2 = historicalData.get(i);
-            HistoricalData data1 = historicalData.get(i-1);
+            HistoricalData data1 = historicalData.get(i - 1);
             double price2 = data2.getClosePrice();
             double price1 = data1.getClosePrice();
             double ror = (price2 - price1) / price1;
@@ -92,7 +88,7 @@ public class PlotUtil {
                 StockId,  // title
                 "Date",             // x-axis label
                 "Price",   // y-axis label
-                dataset,false,false,false);
+                dataset, false, false, false);
 
         chart.setBackgroundPaint(Color.WHITE);
 
@@ -122,7 +118,7 @@ public class PlotUtil {
                 symbol,  // title
                 "Date",             // x-axis label
                 "Return",   // y-axis label
-                dataset,false,false,false);
+                dataset, false, false, false);
 
         chart.setBackgroundPaint(Color.WHITE);
 
@@ -151,7 +147,7 @@ public class PlotUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         c.setTime(current);
-        c.add(Calendar.YEAR, -1*year);
+        c.add(Calendar.YEAR, -1 * year);
         Date start = c.getTime();
         ArrayList<HistoricalData> hs = null;
 
@@ -162,13 +158,13 @@ public class PlotUtil {
             e.printStackTrace();
         }
         Double preRor = null;
-        for(int i = 1; i<historicalData.size(); i++){
+        for (int i = 1; i < historicalData.size(); i++) {
             HistoricalData data2 = historicalData.get(i);
-            HistoricalData data1 = historicalData.get(i-1);
+            HistoricalData data1 = historicalData.get(i - 1);
             double price2 = data2.getClosePrice();
             double price1 = data1.getClosePrice();
             Double ror = (price2 - price1) / price1;
-            if(preRor != null){
+            if (preRor != null) {
                 s.add(preRor, ror);
             }
             preRor = ror;
@@ -179,14 +175,14 @@ public class PlotUtil {
         return dataset;
     }
 
-    public static JFreeChart createAutocorrelationChart(String symbol, int year){
+    public static JFreeChart createAutocorrelationChart(String symbol, int year) {
         XYDataset dataset = getAutocorrelationDataset(symbol, year);
 
         JFreeChart chart = ChartFactory.createScatterPlot(
                 "Two Consecutive Trading Days' Return of " + symbol,  // title
                 "Return (-1)",             // x-axis label
                 "Return",   // y-axis label
-                dataset, PlotOrientation.VERTICAL ,false,false,false);
+                dataset, PlotOrientation.VERTICAL, false, false, false);
 
         chart.setBackgroundPaint(Color.WHITE);
 
@@ -214,9 +210,9 @@ public class PlotUtil {
             renderer.setDrawSeriesLineAsPath(true);
             renderer.setUseFillPaint(true);
             renderer.setUseOutlinePaint(true);
-            renderer.setSeriesOutlinePaint(0,Color.gray);
+            renderer.setSeriesOutlinePaint(0, Color.gray);
             renderer.setBasePaint(Color.gray);
-            renderer.setSeriesFillPaint(0,Color.gray);
+            renderer.setSeriesFillPaint(0, Color.gray);
             renderer.setSeriesShape(0, ShapeUtilities.createDiamond(2.0f));
         }
 
@@ -230,6 +226,72 @@ public class PlotUtil {
         return chart;
     }
 
+    private static HistogramDataset createHistDataset(String symbol, int year) {
+        ArrayList<HistoricalData> historicalData = null;
+        ArrayList<Double> rorData = new ArrayList<Double>();
+        Date current = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(current);
+        c.add(Calendar.YEAR, -1 * year);
+        Date start = c.getTime();
+        try {
+            historicalData = DBUtil.getHistoricalDataByRange(symbol, start, current);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for (int i = 1; i < Objects.requireNonNull(historicalData).size(); i++) {
+            HistoricalData data2 = historicalData.get(i);
+            HistoricalData data1 = historicalData.get(i - 1);
+            double price2 = data2.getClosePrice();
+            double price1 = data1.getClosePrice();
+            double ror = (price2 - price1) / price1;
+            rorData.add(ror);
+        }
+        HistogramDataset dataset = new HistogramDataset();
+//        dataset.addSeries(symbol,
+//                rorData.stream().mapToDouble(Double::doubleValue).toArray(),
+//                (int) ((Collections.max(rorData) - Collections.min(rorData)) * 50));
+        dataset.addSeries(symbol,
+                rorData.stream().mapToDouble(Double::doubleValue).toArray(),
+                25);
+        return dataset;
+    }
 
+    public static JFreeChart createHistChart(String symbol, int year) {
+        HistogramDataset dataset = createHistDataset(symbol, year);
 
+        JFreeChart chart = ChartFactory.createHistogram(
+                "Histogram of " + symbol + " simple return",  // title
+                "Return bin",             // x-axis label
+                "Frequency",   // y-axis label
+                dataset, PlotOrientation.VERTICAL, false, false, false);
+
+        chart.setBackgroundPaint(Color.WHITE);
+
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(false);
+        plot.setDomainCrosshairPaint(Color.BLACK);
+        plot.setRangeCrosshairPaint(Color.BLACK);
+        plot.setRangeGridlineStroke(new BasicStroke());
+
+        XYItemRenderer r = plot.getRenderer();
+        if (r instanceof XYLineAndShapeRenderer) {
+            XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
+            renderer.setDrawSeriesLineAsPath(true);
+            renderer.setUseFillPaint(true);
+            renderer.setUseOutlinePaint(true);
+            renderer.setSeriesOutlinePaint(0, Color.gray);
+            renderer.setBasePaint(Color.gray);
+            renderer.setSeriesFillPaint(0, Color.gray);
+            renderer.setSeriesShape(0, ShapeUtilities.createDiamond(2.0f));
+        }
+
+        NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
+        xAxis.setNumberFormatOverride(NumberFormat.getPercentInstance());
+
+        return chart;
+
+    }
 }

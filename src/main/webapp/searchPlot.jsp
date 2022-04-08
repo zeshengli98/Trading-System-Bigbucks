@@ -40,9 +40,11 @@
 
 <%
     /* Set the HTTP Response Type */
-    String priceChartURL = request.getContextPath() +"/servlet/DisplayChart?filename="+ (String) request.getAttribute("priceChart");
-    String returnChartURL = request.getContextPath() +"/servlet/DisplayChart?filename="+ (String) request.getAttribute("returnChart");
-    String autoChartURL = request.getContextPath() +"/servlet/DisplayChart?filename="+ (String) request.getAttribute("autoChart");
+    String prefix = request.getContextPath() +"/servlet/DisplayChart?filename=";
+    String priceChartURL = prefix + (String) request.getAttribute("priceChart");
+    String returnChartURL = prefix + (String) request.getAttribute("returnChart");
+    String autoChartURL = prefix + (String) request.getAttribute("autoChart");
+    String histChartURL = prefix + (String) request.getAttribute("histChart");
 %>
 
 <img src="<%=priceChartURL%>" border="0" usemap="#<%=priceChartURL%>"/>
@@ -50,6 +52,8 @@
 <img src="<%=returnChartURL%>" border="0" usemap="#<%=returnChartURL%>"/>
 
 <img src="<%=autoChartURL%>" border="0" usemap="#<%=autoChartURL%>"/>
+
+<img src="<%=histChartURL%>" border="0" usemap="#<%=autoChartURL%>"/>
 
 <%@ include file="footer.jsp" %>
 </body>
