@@ -1,5 +1,6 @@
 
 import com.ibm.security.appscan.bigbucks.model.Account;
+import com.ibm.security.appscan.bigbucks.model.HistoricalData;
 import com.ibm.security.appscan.bigbucks.model.Portfolio;
 import com.ibm.security.appscan.bigbucks.model.Stock;
 import com.ibm.security.appscan.bigbucks.util.DBUtil;
@@ -9,10 +10,12 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import  java.util.Date;
 
 
 import static com.ibm.security.appscan.bigbucks.dto.StockDto.getHistoryStockDto;
@@ -159,6 +162,21 @@ public class DBUtilTest extends TestCase {
         long accountId = DBUtil.getAccounts("admin1")[0].getAccountId();
         ArrayList<Portfolio> holdings = DBUtil.getPortfoliosByAccount(accountId);
         System.out.println(holdings);
+    }
+
+    @Test void testDate() throws SQLException {
+        Date d = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd ");
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        c.add(Calendar.YEAR, -1);
+        Date end = c.getTime();
+        ArrayList<HistoricalData> hs = DBUtil.getHistoricalDataByRange("AAPL", end, d);
+        System.out.println(format.format(d));
+        for (HistoricalData data:hs){
+//            System.out.println(data.getClosePrice());
+            System.out.println(data.getDate());
+        }
     }
 
 }

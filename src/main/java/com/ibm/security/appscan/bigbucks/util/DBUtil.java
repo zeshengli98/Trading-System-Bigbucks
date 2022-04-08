@@ -388,6 +388,15 @@ public class DBUtil {
         return result;
     }
 
+    public static ArrayList<Double> getReturnByRange(String symbol, Date start, Date end) throws SQLException {
+        ArrayList<Double> res = new ArrayList<Double>();
+        ArrayList<HistoricalData> historicalData = getHistoricalDataByRange(symbol, start, end);
+        for(int i = 0; i<historicalData.size(); i++){
+
+        }
+        return res;
+    }
+
     public static ArrayList<Portfolio> getPortfoliosByAccount(long accountID){
         ArrayList<Portfolio> result = new ArrayList<Portfolio>();
         try {

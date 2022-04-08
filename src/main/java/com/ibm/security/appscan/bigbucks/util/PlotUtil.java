@@ -35,7 +35,7 @@ public class PlotUtil {
         Date start = c.getTime();
         ArrayList<HistoricalData> hs = null;
         try {
-            hs = DBUtil.getHistoricalDataByRange("AAPL", start, current);
+            hs = DBUtil.getHistoricalDataByRange(symbol, start, current);
         } catch (SQLException e) {
             e.printStackTrace();
         }
