@@ -30,8 +30,10 @@ public class GetPlotServlet  extends HttpServlet {
 
         JFreeChart priceChart = PlotUtil.createChart(symbol, 1);
         JFreeChart returnChart = PlotUtil.createReturnChart(symbol, 1);
+        JFreeChart autocorrelationChart = PlotUtil.createAutocorrelationChart(symbol, 1);
         String priceChartFileName = null;
         String returnChartFileName = null;
+        String autoChartFileName = null;
         try {
             priceChartFileName = saveChartAsPNG(priceChart,
                     500,
@@ -42,7 +44,10 @@ public class GetPlotServlet  extends HttpServlet {
                     500,
                     500,
                     null);
-
+            autoChartFileName = saveChartAsPNG(autocorrelationChart,
+                    500,
+                    500,
+                    null);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -50,6 +55,7 @@ public class GetPlotServlet  extends HttpServlet {
 
                 request.setAttribute("priceChart", priceChartFileName);
                 request.setAttribute("returnChart", returnChartFileName);
+                request.setAttribute("autoChart", autoChartFileName);
                 request.getRequestDispatcher("searchPlot.jsp" +"?symbol=" + symbol).forward(request, response);
             }
 
