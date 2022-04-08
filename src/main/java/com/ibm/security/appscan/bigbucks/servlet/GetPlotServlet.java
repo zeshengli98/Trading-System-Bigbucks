@@ -28,20 +28,28 @@ public class GetPlotServlet  extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String symbol = request.getParameter("symbol");
 
-        JFreeChart chart = PlotUtil.createChart(symbol, 1);
-        String fileName = null;
+        JFreeChart priceChart = PlotUtil.createChart(symbol, 1);
+        JFreeChart returnChart = PlotUtil.createReturnChart(symbol, 1);
+        String priceChartFileName = null;
+        String returnChartFileName = null;
         try {
-            fileName = saveChartAsPNG(chart,
+            priceChartFileName = saveChartAsPNG(priceChart,
                     500,
                     500,
                     null);
+
+            returnChartFileName = saveChartAsPNG(returnChart,
+                    500,
+                    500,
+                    null);
+
         }
         catch (Exception e){
             e.printStackTrace();
         }
-                System.out.println("name: " + fileName);
-                System.out.println(ServletUtilities.getTempFilePrefix());
-                request.setAttribute("fileName", fileName);
+
+                request.setAttribute("priceChart", priceChartFileName);
+                request.setAttribute("returnChart", returnChartFileName);
                 request.getRequestDispatcher("searchPlot.jsp" +"?symbol=" + symbol).forward(request, response);
             }
 

@@ -40,11 +40,13 @@
 
 <%
     /* Set the HTTP Response Type */
-    String imgPath = request.getContextPath() +"/servlet/DisplayChart?filename="+ (String) request.getAttribute("fileName");
+    String priceChartURL = request.getContextPath() +"/servlet/DisplayChart?filename="+ (String) request.getAttribute("priceChart");
+    String returnChartURL = request.getContextPath() +"/servlet/DisplayChart?filename="+ (String) request.getAttribute("returnChart");
 %>
 
-<img src="<%=imgPath%>" border="0" usemap="#<%=imgPath%>"/>
+<img src="<%=priceChartURL%>" border="0" usemap="#<%=priceChartURL%>"/>
 
+<img src="<%=returnChartURL%>" border="0" usemap="#<%=returnChartURL%>"/>
 
 
 <%@ include file="footer.jsp" %>
