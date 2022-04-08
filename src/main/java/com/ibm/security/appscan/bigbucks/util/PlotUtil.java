@@ -71,9 +71,6 @@ public class PlotUtil {
         XYItemRenderer r = plot.getRenderer();
         if (r instanceof XYLineAndShapeRenderer) {
             XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
-
-            //renderer.setDefaultShapesVisible(true);
-            //renderer.setDefaultShapesFilled(true);
             renderer.setDrawSeriesLineAsPath(true);
         }
 
