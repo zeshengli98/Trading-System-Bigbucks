@@ -34,7 +34,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3" style ="background-color:#42a3b8!important;">
-  <a class="navbar-brand" href="#" style="color:#ffffff !important;">BigBucks stock trading</a>
+  <a class="navbar-brand" href="#" style="color:#ffffff !important;">BigBucks Stock Trading</a>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
