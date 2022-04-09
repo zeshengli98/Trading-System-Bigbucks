@@ -7,12 +7,27 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.io.*, javax.imageio.*, java.awt.image.*, javax.servlet.*, javax.servlet.http.*,org.jfree.chart.*, org.jfree.chart.plot.*, org.jfree.data.category.*"%>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="com.ibm.security.appscan.bigbucks.util.DBUtil" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="heading"  value="Search stocks"/>
 <body>
 <%@ include file="header.jsp" %>
 <%
     String symbol = (String) request.getAttribute("symbol");
+    String errmsg = (String) request.getAttribute("errmsg");
+//    List<String> stocks= null;
+//    try {
+//        stocks = Arrays.asList(DBUtil.getStocksInDB());
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
+//    for(String s:stocks){
+//        System.out.println(s);
+//    }
+//    request.setAttribute("stocks", stocks);
 %>
 <div class="container">
     <h2>Search Options:</h2>
@@ -32,6 +47,11 @@
                                     <input type="text" class="form-control" id="itemName" name="symbol" value="<%=symbol%>">
                                 </c:otherwise>
                             </c:choose>
+<%--                            <select class="form-control" name="symbol">--%>
+<%--                                <c:forEach items="${stocks}" var="cd">--%>
+<%--                                    <option value="${cd}"> <c:out value = "${cd}"/></option>--%>
+<%--                                </c:forEach>--%>
+<%--                            </select>--%>
                             <br>
                             <input type="submit" value="Search" class="btn btn-info"/>
                         </form>
@@ -53,7 +73,16 @@
     String dailyReturnChartURL = prefix + (String) request.getAttribute("dailyReturnChart");
     String CAPMChartURL = prefix + (String) request.getAttribute("CAPMChart");
 %>
-<c:if test="${symbol != null}">
+<c:if test="${errmsg != null}">
+    <p>
+        <span id="_ctl0__ctl0_Content_Main_message" style="color:#FF0066;font-size:12pt;font-weight:bold;">
+        <%=errmsg%>
+        </span>
+    </p>
+</c:if>
+
+
+<c:if test="${symbol != null && errmsg == null}">
     <br>
 <img src="<%=priceChartURL%>" border="0" usemap="#<%=priceChartURL%>"/>
 <img src="<%=returnChartURL%>" border="0" usemap="#<%=returnChartURL%>"/>

@@ -50,24 +50,20 @@
       <h5 class="card-title">Stocks</h5>
       <div class="container">
         <form action="getPortfoliosByCustomer">
-          <button type="submit" class="btn btn-outline-info"><i class="far fa-file-alt mr-2"></i>Current stock holdings</button>
+          <button type="submit" class="btn btn-outline-info"><i class="far fa-file-alt mr-2"></i>Current Stock Holdings</button>
           <%--                    <input type="submit" value="Current stock holdings" class="btn btn-outline-info"/>--%>
         </form>
         <form action="viewStockHistory" class="pt-1">
-          <button type="submit" class="btn btn-outline-info"><i class="fas fa-book-open mr-2"></i>Stock price history</button>
+          <button type="submit" class="btn btn-outline-info"><i class="fas fa-book-open mr-2"></i>Stock Price History</button>
           <%--                    <input type="submit" value="Stock price history" class="btn btn-outline-info"/>--%>
         </form>
         <form action="viewRiskReturn" class="pt-1">
-          <button type="submit" class="btn btn-outline-info"><i class="fas fa-atom mr-2"></i>View risk-return profile</button>
+          <button type="submit" class="btn btn-outline-info"><i class="fas fa-atom mr-2"></i>View Risk-return Profile</button>
           <%--                    <input type="submit" value="Search stocks" class="btn btn-outline-info"/>--%>
         </form>
         <form action="getStockAnalytics" class="pt-1">
           <button type="submit" class="btn btn-outline-info"><i class="fas fa-chart-area mr-2"></i>Stocks Analytics</button>
           <%--                    <input type="submit" value="View bestseller stocks" class="btn btn-outline-info"/>--%>
-        </form>
-        <form action="getStockSuggestions" class="pt-1">
-          <button type="submit" class="btn btn-outline-info"><i class="fas fa-glasses mr-2"></i>View suggested stocks</button>
-          <%--                    <input type="submit" value="View suggested stocks" class="btn btn-outline-info"/>--%>
         </form>
       </div>
     </div>

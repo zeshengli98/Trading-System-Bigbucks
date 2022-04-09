@@ -6,9 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
-import apple.laf.JRSUIConstants;
+import com.ibm.security.appscan.bigbucks.util.DBUtil;
 import com.ibm.security.appscan.bigbucks.util.PlotUtil;
 import org.jfree.chart.JFreeChart;
 
@@ -26,6 +29,19 @@ public class GetPlotServlet  extends HttpServlet {
         if (symbol.length() > 0) {
             System.out.println("symbol: " + symbol);
             symbol = symbol.toUpperCase(Locale.ROOT);
+            request.setAttribute("symbol", symbol);
+            List<String> stocks= null;
+            try {
+                stocks = Arrays.asList(DBUtil.getStocksInDB());
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if(!stocks.contains(symbol)){
+                request.setAttribute("errmsg", "Search failed, please check the stock symbol you input.");
+                request.getRequestDispatcher("searchPlot.jsp" + "?symbol=" + symbol).forward(request, response);
+                return;
+            }
 
             JFreeChart priceChart = PlotUtil.createChart(symbol, 1);
             JFreeChart returnChart = PlotUtil.createReturnChart(symbol, 1);
@@ -75,7 +91,7 @@ public class GetPlotServlet  extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            request.setAttribute("symbol", symbol);
+
             request.setAttribute("priceChart", priceChartFileName);
             request.setAttribute("returnChart", returnChartFileName);
             request.setAttribute("autoChart", autoChartFileName);

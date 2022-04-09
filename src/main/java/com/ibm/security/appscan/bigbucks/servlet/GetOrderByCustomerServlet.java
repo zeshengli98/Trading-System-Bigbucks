@@ -36,7 +36,6 @@ public class GetOrderByCustomerServlet extends HttpServlet {
 
             RequestDispatcher rd = request.getRequestDispatcher("showOrders.jsp");
             rd.forward(request, response);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

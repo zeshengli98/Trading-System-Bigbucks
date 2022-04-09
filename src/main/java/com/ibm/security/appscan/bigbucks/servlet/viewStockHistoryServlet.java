@@ -45,7 +45,7 @@ public class viewStockHistoryServlet extends HttpServlet {
         }
 
         request.setAttribute("stocks", stocks);
-        request.setAttribute("heading", "Stock price history");
+        request.setAttribute("heading", "Stock Price History");
 
         RequestDispatcher rd = request.getRequestDispatcher("showStockHistory.jsp");
         rd.forward(request, response);
