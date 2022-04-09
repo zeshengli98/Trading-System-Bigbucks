@@ -32,7 +32,7 @@
                                     <input type="text" class="form-control" id="itemName" name="symbol" value="<%=symbol%>">
                                 </c:otherwise>
                             </c:choose>
-
+                            <br>
                             <input type="submit" value="Search" class="btn btn-info"/>
                         </form>
                     </div>
@@ -54,18 +54,16 @@
     String CAPMChartURL = prefix + (String) request.getAttribute("CAPMChart");
 %>
 <c:if test="${symbol != null}">
+    <br>
 <img src="<%=priceChartURL%>" border="0" usemap="#<%=priceChartURL%>"/>
-
 <img src="<%=returnChartURL%>" border="0" usemap="#<%=returnChartURL%>"/>
-
+    <br>
 <img src="<%=autoChartURL%>" border="0" usemap="#<%=autoChartURL%>"/>
-
 <img src="<%=histChartURL%>" border="0" usemap="#<%=autoChartURL%>"/>
-
+    <br>
 <img src="<%=cumReturnChartURL%>" border="0" usemap="#<%=autoChartURL%>"/>
-
 <img src="<%=dailyReturnChartURL%>" border="0" usemap="#<%=autoChartURL%>"/>
-
+    <br>
 <img src="<%=CAPMChartURL%>" border="0" usemap="#<%=autoChartURL%>"/>
 </c:if>
 
