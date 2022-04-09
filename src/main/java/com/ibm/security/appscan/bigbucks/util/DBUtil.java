@@ -1045,16 +1045,16 @@ public class DBUtil {
 
 
 
-    public static void main(String[] args) throws SQLException, IOException {
-        initAccount(800000);
+//    public static void main(String[] args) throws SQLException, IOException {
+////        initAccount(800000);
 //        DBUtil db = new DBUtil();
-////
+//////
 //        Connection connection = db.getConnection();
-//        instance.initDB();
-////        db.DBstoreData("SPY",5,"daily");
-
-    }
-
+////        instance.initDB();
+//        getHistoricalData("SPY",5,"daily");
+//
+//    }
+//
 }
 
 

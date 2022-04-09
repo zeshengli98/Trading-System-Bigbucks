@@ -18,6 +18,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.util.ShapeUtilities;
 
+import javax.sound.midi.SysexMessage;
 import java.awt.*;
 import java.sql.SQLException;
 import java.text.NumberFormat;
@@ -205,8 +206,6 @@ public class PlotUtil {
         if (r instanceof XYLineAndShapeRenderer) {
             XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
 
-            //renderer.setDefaultShapesVisible(true);
-            //renderer.setDefaultShapesFilled(true);
             renderer.setDrawSeriesLineAsPath(true);
             renderer.setUseFillPaint(true);
             renderer.setUseOutlinePaint(true);
@@ -248,9 +247,7 @@ public class PlotUtil {
             rorData.add(ror);
         }
         HistogramDataset dataset = new HistogramDataset();
-//        dataset.addSeries(symbol,
-//                rorData.stream().mapToDouble(Double::doubleValue).toArray(),
-//                (int) ((Collections.max(rorData) - Collections.min(rorData)) * 50));
+
         dataset.addSeries(symbol,
                 rorData.stream().mapToDouble(Double::doubleValue).toArray(),
                 25);
@@ -294,4 +291,309 @@ public class PlotUtil {
         return chart;
 
     }
+
+    private static XYDataset getCumReturnDataset(String symbol, int year) {
+        Date current = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(current);
+        c.add(Calendar.YEAR, -1 * year);
+        Date start = c.getTime();
+        ArrayList<HistoricalData> stockData = null;
+        ArrayList<HistoricalData> indexData = null;
+        try {
+            stockData = DBUtil.getHistoricalDataByRange(symbol, start, current);
+            indexData = DBUtil.getHistoricalDataByRange("SPY", start, current);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        TimeSeries s1 = new TimeSeries(symbol);
+        TimeSeries s2 = new TimeSeries("S&P 500");
+        double cumStockReturn = 1;
+        double cumIndexReturn = 1;
+        double originalStockPrice = Objects.requireNonNull(stockData).get(0).getClosePrice();
+        double originalIndexPrice = Objects.requireNonNull(indexData).get(0).getClosePrice();
+
+        for(int i = 1; i<stockData.size(); i++){
+
+            HistoricalData data = stockData.get(i);
+            cumStockReturn = data.getClosePrice()/originalStockPrice;
+            Day day = new Day(new Date(data.getDate().getTime()));
+            s1.add(day, cumStockReturn);
+        }
+
+        for(int i = 1; i<indexData.size(); i++){
+
+                HistoricalData data = indexData.get(i);
+                cumIndexReturn = data.getClosePrice()/originalIndexPrice;
+                Day day = new Day(new Date(data.getDate().getTime()));
+                s2.add(day, cumIndexReturn);
+            }
+
+        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        dataset.addSeries(s1);
+        dataset.addSeries(s2);
+
+        return dataset;
+    }
+
+    public static JFreeChart createCumReturnChart(String symbol, int year){
+        XYDataset dataset = getCumReturnDataset(symbol, year);
+
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(
+                symbol+ " and S&P 500 cumulative returns",  // title
+                "Date",             // x-axis label
+                "Relative price",   // y-axis label
+                dataset,true,false,false);
+
+        chart.setBackgroundPaint(Color.WHITE);
+
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setDomainGridlinePaint(Color.WHITE);
+        plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+        plot.setDomainCrosshairVisible(false);
+        plot.setRangeCrosshairVisible(true);
+        plot.setRangeCrosshairPaint(Color.BLACK);
+        plot.setOutlineStroke(new BasicStroke());
+
+        XYItemRenderer r = plot.getRenderer();
+        if (r instanceof XYLineAndShapeRenderer) {
+            XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
+
+            renderer.setDrawSeriesLineAsPath(true);
+        }
+
+        DateAxis axis = (DateAxis) plot.getDomainAxis();
+        axis.setDateFormatOverride(new SimpleDateFormat("MMM-yyyy"));
+
+        return chart;
+    }
+
+
+    private static XYDataset getDailyReturnDataset(String symbol, int year) {
+        Date current = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(current);
+        c.add(Calendar.YEAR, -1 * year);
+        Date start = c.getTime();
+        ArrayList<HistoricalData> stockData = null;
+        ArrayList<HistoricalData> indexData = null;
+        try {
+            stockData = DBUtil.getHistoricalDataByRange(symbol, start, current);
+            indexData = DBUtil.getHistoricalDataByRange("SPY", start, current);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        TimeSeries s1 = new TimeSeries(symbol);
+        TimeSeries s2 = new TimeSeries("S&P 500");
+        double stockReturn = 1;
+        double indexReturn = 1;
+        double preStockPrice = Objects.requireNonNull(stockData).get(0).getClosePrice();
+        double preIndexPrice = Objects.requireNonNull(indexData).get(0).getClosePrice();
+
+        for(int i = 1; i<stockData.size(); i++){
+            HistoricalData data = stockData.get(i);
+            stockReturn = data.getClosePrice()/preStockPrice - 1;
+            Day day = new Day(new Date(data.getDate().getTime()));
+            s1.add(day, stockReturn);
+            preStockPrice = data.getClosePrice();
+        }
+
+        for(int i = 1; i<indexData.size(); i++){
+            HistoricalData data = indexData.get(i);
+            indexReturn = data.getClosePrice()/preIndexPrice - 1;
+            Day day = new Day(new Date(data.getDate().getTime()));
+            s2.add(day, indexReturn);
+            preIndexPrice = data.getClosePrice();
+        }
+
+        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        dataset.addSeries(s1);
+        dataset.addSeries(s2);
+        return dataset;
+    }
+
+    public static JFreeChart createDailyReturnChart(String symbol, int year){
+        XYDataset dataset = getDailyReturnDataset(symbol, year);
+
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(
+                "Daily return change for "+ symbol+ " and S&P 500",  // title
+                "Date",             // x-axis label
+                "Daily returns (%)",   // y-axis label
+                dataset,true,false,false);
+
+        chart.setBackgroundPaint(Color.WHITE);
+
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setDomainGridlinePaint(Color.WHITE);
+        plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+        plot.setDomainCrosshairVisible(false);
+        plot.setRangeCrosshairVisible(true);
+        plot.setRangeCrosshairStroke(new BasicStroke());
+        plot.setRangeCrosshairPaint(Color.BLACK);
+        plot.setOutlineStroke(new BasicStroke());
+
+        XYItemRenderer r = plot.getRenderer();
+        if (r instanceof XYLineAndShapeRenderer) {
+            XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
+            renderer.setDrawSeriesLineAsPath(true);
+        }
+
+        DateAxis axis = (DateAxis) plot.getDomainAxis();
+        axis.setDateFormatOverride(new SimpleDateFormat("MMM-yyyy"));
+
+        NumberAxis xAxis = (NumberAxis) plot.getRangeAxis();
+        xAxis.setNumberFormatOverride(NumberFormat.getPercentInstance());
+
+        return chart;
+    }
+
+    private static double _calBeta(ArrayList<Double> xVariable, ArrayList<Double> yVariable){
+        double xMean = xVariable.stream().mapToDouble(d -> d).average().orElse(0.0);
+        double yMean = yVariable.stream().mapToDouble(d -> d).average().orElse(0.0);
+        double nominator = 0;
+        double denominator = 0;
+        for (int i=0; i<xVariable.size(); i++){
+            nominator += (xVariable.get(i) - xMean) * (yVariable.get(i) - yMean);
+            denominator += (xVariable.get(i) - xMean) * (xVariable.get(i) - xMean);
+        }
+        return nominator / denominator;
+    }
+
+    private static double _calAlpha(ArrayList<Double> xVariable, ArrayList<Double> yVariable,
+                                    double beta){
+        double xMean = xVariable.stream().mapToDouble(d -> d).average().orElse(0.0);
+        double yMean = yVariable.stream().mapToDouble(d -> d).average().orElse(0.0);
+        return yMean - (beta * xMean);
+    }
+
+    private static ArrayList<Double> _findFittedValues(ArrayList<Double> xVariable,
+                                                       ArrayList<Double> yVariable){
+        double beta = _calBeta(xVariable, yVariable);
+        double alpha = _calAlpha(xVariable, yVariable, beta);
+        ArrayList<Double> fitted = new ArrayList<>();
+        for (Double x : xVariable){
+            fitted.add(x * beta + alpha);
+        }
+        return fitted;
+    }
+
+    private static ArrayList<Double> _stringListToDouble(ArrayList<String> list){
+        ArrayList<Double> result = new ArrayList<>();
+        for (String s : list) {
+            double temp = 0;
+            try {
+                temp = Double.parseDouble(s);
+            }
+            catch (Exception e) {
+                temp=0;
+            }
+            result.add(temp);
+        }
+        return result;
+    }
+
+    public static JFreeChart createCAPMChart(String symbol, int year) {
+        XYDataset dataset = getCAPMDataset(symbol, year);
+
+        JFreeChart chart = ChartFactory.createXYLineChart(
+                "CAPM for "+ symbol+ " and S&P 500",  // title
+                "S&P 500",             // x-axis label
+                symbol,   // y-axis label
+                dataset,
+                PlotOrientation.VERTICAL,true,true,false);
+
+        chart.setBackgroundPaint(Color.WHITE);
+
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setDomainGridlinePaint(Color.WHITE);
+        plot.setRangeGridlinePaint(Color.WHITE);
+        plot.setDomainCrosshairVisible(false);
+        plot.setRangeCrosshairVisible(false);
+        plot.setOutlineStroke(new BasicStroke());
+
+        XYItemRenderer r = plot.getRenderer();
+        if (r instanceof XYLineAndShapeRenderer) {
+            XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
+            renderer.setDrawSeriesLineAsPath(true);
+            renderer.setUseFillPaint(true);
+            renderer.setUseOutlinePaint(true);
+            renderer.setSeriesOutlinePaint(0,Color.gray);
+            renderer.setBasePaint(Color.gray);
+            renderer.setSeriesFillPaint(0,Color.gray);
+            renderer.setSeriesShape(0, ShapeUtilities.createDiamond(2.0f));
+
+            // "1" is the line plot
+            renderer.setSeriesLinesVisible(1, true);
+            renderer.setSeriesShapesVisible(1, false);
+
+            // "0" is the scatter plot
+            renderer.setSeriesLinesVisible(0, false);
+            renderer.setSeriesShapesVisible(0, true);
+        }
+
+        NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
+        xAxis.setNumberFormatOverride(NumberFormat.getPercentInstance());
+
+        NumberAxis yAxis = (NumberAxis) plot.getRangeAxis();
+        yAxis.setNumberFormatOverride(NumberFormat.getPercentInstance());
+
+        return chart;
+
+    }
+
+    public static XYSeriesCollection getCAPMDataset(String symbol, int year) {
+        Date current = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(current);
+        c.add(Calendar.YEAR, -1 * year);
+        Date start = c.getTime();
+        ArrayList<HistoricalData> stockData = null;
+        ArrayList<HistoricalData> indexData = null;
+        try {
+            stockData = DBUtil.getHistoricalDataByRange(symbol, start, current);
+            indexData = DBUtil.getHistoricalDataByRange("SPY", start, current);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        double preStockPrice = Objects.requireNonNull(stockData).get(0).getClosePrice();
+        double preIndexPrice = Objects.requireNonNull(indexData).get(0).getClosePrice();
+        ArrayList<Double> stockReturns = new ArrayList<Double>();
+        ArrayList<Double> indexReturns = new ArrayList<Double>();
+        for(int i = 1; i<stockData.size(); i++){
+            HistoricalData data = stockData.get(i);
+            double ror = data.getClosePrice()/preStockPrice - 1;
+            preStockPrice = data.getClosePrice();
+            stockReturns.add(ror);
+        }
+        for(int i = 1; i<indexData.size(); i++){
+            HistoricalData data = indexData.get(i);
+            double ror = data.getClosePrice()/preIndexPrice - 1;
+            preIndexPrice = data.getClosePrice();
+            indexReturns.add(ror);
+        }
+        int size = Math.min(stockReturns.size(), indexReturns.size());
+        if (stockReturns.size()>size) {
+            stockReturns = new ArrayList<Double>(stockReturns.subList(0, size));
+        }
+        if (indexReturns.size()>size) {
+            indexReturns = new ArrayList<Double>(indexReturns.subList(0, size));
+        }
+        ArrayList<Double> fitted = _findFittedValues(indexReturns, stockReturns);
+
+        XYSeries s1 = new XYSeries("scattered");
+        XYSeries s2 = new XYSeries("fitted");
+
+        for (int i=0; i< indexReturns.size(); ++i) {
+            s1.add(indexReturns.get(i), stockReturns.get(i));
+            s2.add(indexReturns.get(i), fitted.get(i));
+        }
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(s1);
+        dataset.addSeries(s2);
+        return dataset;
+    }
+
 }
