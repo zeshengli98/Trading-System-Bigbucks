@@ -601,6 +601,7 @@ private static final String DRIVER = "org.apache.derby.jdbc.ClientDriver";
 
 
     public static BigDecimal getMarketPrice(String symbol) throws IOException {
+
         yahoofinance.Stock stock = YahooFinance.get(symbol);
         BigDecimal price = stock.getQuote().getPrice();
         return price;
