@@ -55,7 +55,7 @@ public class NasqScreener {
     public String getIndustry(){
         return industry;
     }
-    private static final String SAMPLE_CSV_FILE_PATH = "src/resources/nasdaq_screener.csv";
+    private static final String SAMPLE_CSV_FILE_PATH = "/resources/nasdaq_screener.csv";
 
 
     public static void screener() throws IOException, SQLException {
