@@ -1,2 +1,2 @@
-# bigb
-A brocker website that allows user to trade stocks.
+# BigBucks
+A brocker website that allows users to trade stocks. The project is written in Java.
