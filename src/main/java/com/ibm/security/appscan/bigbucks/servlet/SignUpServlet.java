@@ -39,7 +39,11 @@ public class SignUpServlet extends HttpServlet {
 
             else if (!password1.equals(password2)) {
                 message = "Two passwords did not match";
-            } else if (DBUtil.isExistedUser(username)) {
+            }
+            else if(password1.length() < 8){
+                message = "The password must have at least 8 characters";
+            }
+            else if (DBUtil.isExistedUser(username)) {
                 message = "Username has already been used, please use another username.";
                 request.getSession().setAttribute("message", message);
                 Log4Bigbucks.getInstance().logError("Login in failed >>> User: " + username + " >>> Password: " + password1);
